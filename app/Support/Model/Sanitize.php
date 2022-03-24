@@ -29,4 +29,16 @@ trait Sanitize
 
         return array_intersect_key($data, array_flip($fillable));
     }
+
+    /**
+     * 净化数据并填充
+     *
+     * @param Request|array $request
+     *
+     * @return $this
+     */
+    public function sanitizeFill(Request|array $request): static
+    {
+        return $this->fill($this->sanitize($request));
+    }
 }
