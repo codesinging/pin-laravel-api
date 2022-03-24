@@ -34,13 +34,14 @@ trait AdminActing
     /**
      * 以管理员身份登录
      *
-     * @param string|bool|array|null $admin
+     * @param string|bool|array|Admin|null $admin
      *
      * @return $this
      */
-    protected function actingAsAdmin(string|bool|array $admin = null): static
+    protected function actingAsAdmin(string|bool|array|Admin $admin = null): static
     {
-        $this->actingAs($this->getAdmin($admin));
+        $admin instanceof Admin or $admin = $this->getAdmin($admin);
+        $this->actingAs($admin);
         return $this;
     }
 

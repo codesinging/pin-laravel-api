@@ -12,7 +12,6 @@ use App\Http\Requests\Admin\AdminUpdateRequest;
 use App\Models\Admin;
 use App\Support\Routing\BaseController;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class AdminController extends BaseController
@@ -47,6 +46,12 @@ class AdminController extends BaseController
     }
 
     /**
+     * @title 更新管理员
+     *
+     * @param AdminUpdateRequest $request
+     * @param Admin $admin
+     *
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function update(AdminUpdateRequest $request, Admin $admin): JsonResponse
@@ -63,5 +68,35 @@ class AdminController extends BaseController
         return $admin->sanitizeFill($request)->save()
             ? $this->success('更新成功', $admin)
             : $this->error('更新失败');
+    }
+
+    /**
+     * @title 查看管理员详情
+     *
+     * @param Admin $admin
+     *
+     * @return JsonResponse
+     */
+    public function show(Admin $admin): JsonResponse
+    {
+        return $this->success($admin);
+    }
+
+    /**
+     * @title 删除管理员
+     *
+     * @param Admin $admin
+     *
+     * @return JsonResponse
+     */
+    public function destroy(Admin $admin): JsonResponse
+    {
+        if ($admin->isSuper()) {
+            return $this->error('超级管理员无法删除', ErrorCode::SUPER_ADMIN_DELETE_ERROR);
+        }
+
+        return $admin->delete()
+            ? $this->success('删除成功')
+            : $this->error('删除失败');
     }
 }
