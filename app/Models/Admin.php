@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Support\Model\AuthModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 
 class Admin extends AuthModel
 {

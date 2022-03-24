@@ -3,21 +3,22 @@
 namespace Tests\Feature\Support\Model;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Validation\Rule;
 use Tests\AdminActing;
 use Tests\TestCase;
 
-class SerializeDateTest extends TestCase
+class UniqueRuleTest extends TestCase
 {
     use RefreshDatabase;
     use AdminActing;
 
-    public function test_date_format()
+    public function test_rule()
     {
-        $this->freezeTime();
         $this->seedAdmin();
 
         $admin = $this->getAdmin();
 
-        self::assertEquals(date('Y-m-d H:i:s'), $admin->toArray()['created_at']);
+        self::assertEquals(Rule::unique('admins')->ignore($admin), $admin->uniqueRule());
     }
 }

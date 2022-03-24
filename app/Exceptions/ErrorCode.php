@@ -11,4 +11,6 @@ enum ErrorCode: int
     case OK = 0;
 
     case ERROR = -1;
+
+    case SUPER_ADMIN_UPDATE_ERROR = 900100;
 }

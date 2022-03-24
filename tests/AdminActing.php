@@ -16,9 +16,9 @@ trait AdminActing
      *
      * @param string|bool|array|null $admin
      *
-     * @return Admin
+     * @return Admin|null
      */
-    protected function getAdmin(string|bool|array $admin = null): Admin
+    protected function getAdmin(string|bool|array $admin = null): ?Admin
     {
         if (is_string($admin)) {
             return Admin::new()->where('username', $admin)->first();
