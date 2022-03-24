@@ -14,4 +14,6 @@ use Illuminate\Routing\Controller;
 class BaseController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    use ApiResponses;
 }
