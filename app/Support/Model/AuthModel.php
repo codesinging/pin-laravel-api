@@ -16,4 +16,6 @@ class AuthModel extends User
     use Notifiable;
 
     use HelperTraits;
+
+    use IsAuthenticatedUser;
 }
