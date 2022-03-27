@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\AdminActing;
 use Tests\TestCase;
 
-class AuthMenuControllerTest extends TestCase
+class AdminMenuControllerTest extends TestCase
 {
     use RefreshDatabase;
     use AdminActing;

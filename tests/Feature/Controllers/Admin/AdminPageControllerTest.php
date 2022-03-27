@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\AdminActing;
 use Tests\TestCase;
 
-class AuthPageControllerTest extends TestCase
+class AdminPageControllerTest extends TestCase
 {
     use RefreshDatabase;
     use AdminActing;

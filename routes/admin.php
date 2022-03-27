@@ -17,6 +17,10 @@ Route::middleware(['auth:sanctum'])
 
         Route::apiResource('admins', Admin\AdminController::class);
 
+        Route::apiResource('admin_pages', Admin\AdminPageController::class);
+
         Route::apiResource('admin_menus', Admin\AdminMenuController::class);
+
+        Route::get('auth_routes', [Admin\AdminRouteController::class, 'index']);
 
     });

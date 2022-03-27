@@ -2,19 +2,19 @@
 
 namespace Tests\Feature\Database\Seeders;
 
-use Database\Seeders\AuthRouteSeeder;
+use Database\Seeders\AdminRouteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class AuthRouteSeederTest extends TestCase
+class AdminRouteSeederTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_seed()
     {
-        $this->seed(AuthRouteSeeder::class);
+        $this->seed(AdminRouteSeeder::class);
 
-        $this->assertDatabaseHas('auth_routes', ['controller' => 'Admin/Auth']);
+        $this->assertDatabaseHas('admin_routes', ['controller' => 'Admin/Auth']);
     }
 }

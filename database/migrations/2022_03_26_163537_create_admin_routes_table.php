@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('auth_routes', function (Blueprint $table) {
+        Schema::create('admin_routes', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('permission_id')->nullable()->unique()->comment('关联的权限ID');
             $table->string('controller')->comment('路由的控制器');
             $table->string('action')->comment('路由的动作');
             $table->string('controller_title')->comment('路由的控制器标题');
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('auth_routes');
+        Schema::dropIfExists('admin_routes');
     }
 };
