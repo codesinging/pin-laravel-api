@@ -7,6 +7,8 @@ use App\Models\AdminRole;
 use App\Support\Routing\BaseController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
 class AdminRoleController extends BaseController
@@ -89,5 +91,64 @@ class AdminRoleController extends BaseController
         return $adminRole->delete()
             ? $this->success('删除成功', $adminRole)
             : $this->error('删除失败');
+    }
+
+    /**
+     * @title 获取角色权限
+     *
+     * @param AdminRole $role
+     *
+     * @return JsonResponse
+     */
+    public function permissions(AdminRole $role): JsonResponse
+    {
+        $permissions = $role->authRole()->getAllPermissions();
+
+        return $this->success('获取权限成功', $permissions);
+    }
+
+    /**
+     * @title 分配角色权限
+     *
+     * @param AdminRole $role
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function givePermissions(AdminRole $role, Request $request): JsonResponse
+    {
+        $role->authRole()->givePermissionTo(Arr::wrap($request->get('permissions', [])));
+
+        return $this->success('分配权限成功');
+    }
+
+    /**
+     * @title 移除角色权限
+     *
+     * @param AdminRole $role
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function removePermissions(AdminRole $role, Request $request): JsonResponse
+    {
+        $role->authRole()->revokePermissionTo(Arr::wrap($request->get('permissions', [])));
+
+        return $this->success('移除权限成功');
+    }
+
+    /**
+     * @title 同步角色权限
+     *
+     * @param AdminRole $role
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function syncPermissions(AdminRole $role, Request $request): JsonResponse
+    {
+        $role->authRole()->syncPermissions(Arr::wrap($request->get('permissions', [])));
+
+        return $this->success('同步权限成功');
     }
 }

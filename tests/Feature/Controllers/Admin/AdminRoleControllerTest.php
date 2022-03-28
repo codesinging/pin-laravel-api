@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Controllers\Admin;
 
+use App\Models\AdminAuthPermission;
 use App\Models\AdminRole;
 use Database\Seeders\AdminRoleSeeder;
+use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\AdminActing;
 use Tests\TestCase;
@@ -90,5 +92,152 @@ class AdminRoleControllerTest extends TestCase
         $this->assertDatabaseMissing('admin_roles', [
             'id' => $role['id'],
         ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPermissions()
+    {
+        $role = AdminRole::new()->create(['name' => 'role1']);
+
+        $permissions = [
+            ['name' => 'permission1'],
+            ['name' => 'permission2'],
+            ['name' => 'permission3'],
+            ['name' => 'permission4'],
+        ];
+
+        foreach ($permissions as $permission) {
+            AdminAuthPermission::create($permission);
+        }
+
+        $role->authRole()->givePermissionTo(['permission1', 'permission3']);
+        self::assertTrue($role->authRole()->hasAllPermissions(['permission1', 'permission3']));
+
+        $this->seedAdmin();
+
+        $this->actingAsAdmin(false)
+            ->get('api/admin/admin_roles/permissions/' . $role['id'])
+            ->assertJsonPath('data.0.name', 'permission1')
+            ->assertJsonPath('data.1.name', 'permission3')
+            ->assertJsonPath('code', 0)
+            ->assertOk();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGivePermissions()
+    {
+        $role = AdminRole::new()->create(['name' => 'role1']);
+
+        $permissions = [
+            ['name' => 'permission1'],
+            ['name' => 'permission2'],
+            ['name' => 'permission3'],
+            ['name' => 'permission4'],
+        ];
+
+        foreach ($permissions as $permission) {
+            AdminAuthPermission::create($permission);
+        }
+
+        $this->seedAdmin();
+
+        $this->actingAsAdmin(false)
+            ->postJson('api/admin/admin_roles/give_permissions/' . $role['id'], ['permissions' => 'permission1'])
+            ->assertJsonPath('code', 0)
+            ->assertOk();
+
+        $this->actingAsAdmin(false)
+            ->postJson('api/admin/admin_roles/give_permissions/' . $role['id'], ['permissions' => ['permission2', 'permission3']])
+            ->assertJsonPath('code', 0)
+            ->assertOk();
+
+        $role->refresh();
+
+        self::assertTrue($role->authRole()->hasAllPermissions('permission1', 'permission2', 'permission3'));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testRemovePermissions()
+    {
+        $role = AdminRole::new()->create(['name' => 'role1']);
+
+        $permissions = [
+            ['name' => 'permission1'],
+            ['name' => 'permission2'],
+            ['name' => 'permission3'],
+            ['name' => 'permission4'],
+        ];
+
+        foreach ($permissions as $permission) {
+            AdminAuthPermission::create($permission);
+        }
+
+        $role->authRole()->givePermissionTo(['permission1', 'permission3', 'permission4']);
+
+        self::assertTrue($role->authRole()->hasAllPermissions(['permission1', 'permission3', 'permission4']));
+
+        $this->seedAdmin();
+
+        $this->actingAsAdmin(false)
+            ->postJson('api/admin/admin_roles/remove_permissions/' . $role['id'], ['permissions' => 'permission1'])
+            ->assertJsonPath('code', 0)
+            ->assertOk();
+
+        $this->actingAsAdmin(false)
+            ->postJson('api/admin/admin_roles/remove_permissions/' . $role['id'], ['permissions' => ['permission2', 'permission3']])
+            ->assertJsonPath('code', 0)
+            ->assertOk();
+
+        $role->refresh();
+
+        self::assertTrue($role->authRole()->hasAllPermissions('permission4'));
+        self::assertFalse($role->authRole()->hasAnyPermission('permission1', 'permission2', 'permission3'));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testSyncPermissions()
+    {
+        $role = AdminRole::new()->create(['name' => 'role1']);
+
+        $permissions = [
+            ['name' => 'permission1'],
+            ['name' => 'permission2'],
+            ['name' => 'permission3'],
+            ['name' => 'permission4'],
+        ];
+
+        foreach ($permissions as $permission) {
+            AdminAuthPermission::create($permission);
+        }
+
+        $role->authRole()->givePermissionTo(['permission1', 'permission3', 'permission4']);
+
+        self::assertTrue($role->authRole()->hasAllPermissions(['permission1', 'permission3', 'permission4']));
+
+        $this->seedAdmin();
+
+        $this->actingAsAdmin(false)
+            ->postJson('api/admin/admin_roles/sync_permissions/' . $role['id'], ['permissions' => 'permission1'])
+            ->assertJsonPath('code', 0)
+            ->assertOk();
+
+        self::assertTrue($role->authRole()->hasAllPermissions(['permission1']));
+        self::assertFalse($role->authRole()->hasAnyPermission(['permission2', 'permission3', 'permission4']));
+
+        $this->actingAsAdmin(false)
+            ->postJson('api/admin/admin_roles/sync_permissions/' . $role['id'], ['permissions' => ['permission2', 'permission3']])
+            ->assertJsonPath('code', 0)
+            ->assertOk();
+
+        self::assertTrue($role->authRole()->hasAllPermissions('permission2', 'permission3'));
+        self::assertFalse($role->authRole()->hasAnyPermission('permission1', 'permission4'));
     }
 }
