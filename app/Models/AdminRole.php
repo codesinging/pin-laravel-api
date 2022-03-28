@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\AdminRoleDeleted;
+use App\Events\AdminRoleSaved;
 use App\Support\Model\BaseModel;
 
 class AdminRole extends BaseModel
@@ -15,5 +17,10 @@ class AdminRole extends BaseModel
 
     protected $casts = [
         'status' => 'boolean',
+    ];
+
+    protected $dispatchesEvents = [
+        'saved' => AdminRoleSaved::class,
+        'deleted' => AdminRoleDeleted::class,
     ];
 }
