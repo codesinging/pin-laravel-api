@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Support\Model\AuthModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Unique;
+use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends AuthModel
 {
+    use HasRoles;
+
+    protected string $guard_name = 'sanctum';
+
     protected $fillable = [
         'username',
         'name',

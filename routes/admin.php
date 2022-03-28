@@ -15,6 +15,15 @@ Route::middleware(['auth:sanctum'])
         Route::post('auth/logout', [Admin\AuthController::class, 'logout']);
         Route::get('auth/user', [Admin\AuthController::class, 'user']);
 
+        Route::get('admins/permissions/{admin}', [Admin\AdminController::class, 'permissions']);
+        Route::post('admins/give_permissions/{admin}', [Admin\AdminController::class, 'givePermissions']);
+        Route::post('admins/remove_permissions/{admin}', [Admin\AdminController::class, 'removePermissions']);
+        Route::post('admins/sync_permissions/{admin}', [Admin\AdminController::class, 'syncPermissions']);
+        Route::get('admins/roles/{admin}', [Admin\AdminController::class, 'roles']);
+        Route::post('admins/assign_roles/{admin}', [Admin\AdminController::class, 'assignRoles']);
+        Route::post('admins/remove_roles/{admin}', [Admin\AdminController::class, 'removeRoles']);
+        Route::post('admins/sync_roles/{admin}', [Admin\AdminController::class, 'syncRoles']);
+
         Route::apiResource('admins', Admin\AdminController::class);
 
         Route::apiResource('admin_pages', Admin\AdminPageController::class);
