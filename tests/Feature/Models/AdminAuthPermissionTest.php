@@ -16,6 +16,13 @@ class AdminAuthPermissionTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function testDefaultGuard()
+    {
+        AdminAuthPermission::create(['name' => 'test']);
+
+        self::assertEquals('sanctum', AdminAuthPermission::findByName('test')['guard_name']);
+    }
+
     public function testCreateName()
     {
         $this->seed(AdminRouteSeeder::class);
