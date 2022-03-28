@@ -6,6 +6,7 @@ use App\Models\AdminMenu;
 use App\Models\AdminPage;
 use App\Models\AdminAuthPermission;
 use App\Models\AdminRoute;
+use Database\Seeders\AdminAuthPermissionSeeder;
 use Database\Seeders\AdminMenuSeeder;
 use Database\Seeders\AdminPageSeeder;
 use Database\Seeders\AdminRouteSeeder;
@@ -60,5 +61,29 @@ class AdminAuthPermissionTest extends TestCase
         $this->assertDatabaseHas($permission1, ['name' => AdminAuthPermission::createName($adminRoute)]);
         self::assertEquals($permission1['id'], $permission2['id']);
         $this->assertDatabaseCount($permission1, 1);
+    }
+
+    public function testFindFrom()
+    {
+        $this->seed(AdminRouteSeeder::class);
+        $this->seed(AdminAuthPermissionSeeder::class);
+
+        $adminRoute = AdminRoute::new()->first();
+
+        $permission = AdminAuthPermission::findFrom($adminRoute);
+
+        self::assertEquals(AdminAuthPermission::createName($adminRoute), $permission['name']);
+    }
+
+    public function testDeleteFrom()
+    {
+        $this->seed(AdminRouteSeeder::class);
+        $this->seed(AdminAuthPermissionSeeder::class);
+
+        $adminRoute = AdminRoute::new()->first();
+
+        AdminAuthPermission::deleteFrom($adminRoute);
+
+        $this->assertDatabaseMissing(AdminAuthPermission::class, ['name' => AdminAuthPermission::createName($adminRoute)]);
     }
 }

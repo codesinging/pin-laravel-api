@@ -17,11 +17,11 @@ class AdminAuthPermission extends Permission
     /**
      * 根据指定的模型生成权限名
      *
-     * @param AdminRoute|AdminPage|AdminMenu $model
+     * @param Model $model
      *
      * @return string
      */
-    public static function createName(AdminRoute|AdminPage|AdminMenu $model): string
+    public static function createName(Model $model): string
     {
         return sprintf('%s:%s', $model::class, $model['id']);
     }
@@ -29,11 +29,11 @@ class AdminAuthPermission extends Permission
     /**
      * 根据指定的模型创建对应的权限
      *
-     * @param AdminRoute|AdminPage|AdminMenu $model
+     * @param Model $model
      *
      * @return Builder|Model
      */
-    public static function createFrom(AdminRoute|AdminPage|AdminMenu $model): Model|Builder
+    public static function createFrom(Model $model): Model|Builder
     {
         return self::create([
             'name' => self::createName($model),
@@ -43,12 +43,36 @@ class AdminAuthPermission extends Permission
     /**
      * 根据指定的模型创建对应的权限
      *
-     * @param AdminRoute|AdminPage|AdminMenu $model
+     * @param Model $model
      *
      * @return \Spatie\Permission\Contracts\Permission
      */
-    public static function syncFrom(AdminRoute|AdminPage|AdminMenu $model): \Spatie\Permission\Contracts\Permission
+    public static function syncFrom(Model $model): \Spatie\Permission\Contracts\Permission
     {
         return self::findOrCreate(self::createName($model));
+    }
+
+    /**
+     * 根据指定的系统模型查找关联的权限
+     *
+     * @param Model $model
+     *
+     * @return \Spatie\Permission\Contracts\Permission
+     */
+    public static function findFrom(Model $model): \Spatie\Permission\Contracts\Permission
+    {
+        return self::findByName(self::createName($model));
+    }
+
+    /**
+     * 删除指定的模型对应的权限
+     *
+     * @param Model $model
+     *
+     * @return bool|null
+     */
+    public static function deleteFrom(Model $model): ?bool
+    {
+        return self::findFrom($model)->delete();
     }
 }
