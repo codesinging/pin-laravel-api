@@ -2,8 +2,9 @@
 
 namespace Tests\Feature\Models;
 
+use App\Models\AdminAuthRole;
+use App\Models\AdminRole;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AdminAuthRoleTest extends TestCase
@@ -12,6 +13,17 @@ class AdminAuthRoleTest extends TestCase
 
     public function testCreateName()
     {
+        $adminRole = AdminRole::new()->create(['name' => 'Name']);
 
+        self::assertEquals($adminRole::class.':'.$adminRole['id'], AdminAuthRole::createName($adminRole));
+    }
+
+    public function testCreateFrom()
+    {
+        $adminRole = AdminRole::new()->create(['name' => 'Name']);
+
+        AdminAuthRole::createFrom($adminRole);
+
+        self::assertNotNull(AdminAuthRole::findByName(AdminAuthRole::createName($adminRole)));
     }
 }
