@@ -6,7 +6,6 @@ use App\Models\AdminMenu;
 use App\Models\AdminPage;
 use App\Models\AdminAuthPermission;
 use App\Models\AdminRoute;
-use Database\Seeders\AdminAuthPermissionSeeder;
 use Database\Seeders\AdminMenuSeeder;
 use Database\Seeders\AdminPageSeeder;
 use Database\Seeders\AdminRouteSeeder;
@@ -42,6 +41,10 @@ class AdminAuthPermissionTest extends TestCase
         $adminPage = AdminPage::new()->first();
         $adminMenu = AdminMenu::new()->first();
 
+        AdminAuthPermission::deleteFrom($adminRoute);
+        AdminAuthPermission::deleteFrom($adminPage);
+        AdminAuthPermission::deleteFrom($adminMenu);
+
         AdminAuthPermission::createFrom($adminRoute);
         AdminAuthPermission::createFrom($adminPage);
         AdminAuthPermission::createFrom($adminMenu);
@@ -55,18 +58,19 @@ class AdminAuthPermissionTest extends TestCase
     {
         $this->seed(AdminRouteSeeder::class);
         $adminRoute = AdminRoute::new()->first();
+
+        AdminAuthPermission::deleteFrom($adminRoute);
+
         $permission1 = AdminAuthPermission::createFrom($adminRoute);
         $permission2 = AdminAuthPermission::syncFrom($adminRoute);
 
         $this->assertDatabaseHas($permission1, ['name' => AdminAuthPermission::createName($adminRoute)]);
         self::assertEquals($permission1['id'], $permission2['id']);
-        $this->assertDatabaseCount($permission1, 1);
     }
 
     public function testFindFrom()
     {
         $this->seed(AdminRouteSeeder::class);
-        $this->seed(AdminAuthPermissionSeeder::class);
 
         $adminRoute = AdminRoute::new()->first();
 
@@ -78,7 +82,6 @@ class AdminAuthPermissionTest extends TestCase
     public function testDeleteFrom()
     {
         $this->seed(AdminRouteSeeder::class);
-        $this->seed(AdminAuthPermissionSeeder::class);
 
         $adminRoute = AdminRoute::new()->first();
 
