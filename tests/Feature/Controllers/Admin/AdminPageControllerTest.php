@@ -13,7 +13,7 @@ class AdminPageControllerTest extends TestCase
     use RefreshDatabase;
     use AdminActing;
 
-    public function test_index()
+    public function testIndex()
     {
         $this->seed(AdminPageSeeder::class);
 
@@ -24,7 +24,7 @@ class AdminPageControllerTest extends TestCase
             ->assertOk();
     }
 
-    public function test_store()
+    public function testStore()
     {
         $this->seedAdmin()
             ->actingAsAdmin()
@@ -39,7 +39,7 @@ class AdminPageControllerTest extends TestCase
             ->assertStatus(422);
     }
 
-    public function test_update()
+    public function testUpdate()
     {
         $data1 = ['name' => 'Name', 'path' => 'path'];
         $data2 = ['name' => 'Name2', 'path' => 'path2'];
@@ -66,7 +66,7 @@ class AdminPageControllerTest extends TestCase
             ->assertJsonStructure(['message', 'errors' => ['path']]);
     }
 
-    public function test_show()
+    public function testShow()
     {
         $data = ['name' => 'Name', 'path' => 'path'];
 
@@ -80,7 +80,7 @@ class AdminPageControllerTest extends TestCase
             ->assertJsonPath('data.name', 'Name');
     }
 
-    public function test_destroy()
+    public function testDestroy()
     {
         $data = ['name' => 'Name', 'path' => 'path'];
 
@@ -92,5 +92,9 @@ class AdminPageControllerTest extends TestCase
             ->assertOk()
             ->assertJsonPath('code', 0)
             ->assertJsonPath('data.name', 'Name');
+
+        $this->assertDatabaseMissing('admin_pages', [
+            'id' => $page['id'],
+        ]);
     }
 }

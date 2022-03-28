@@ -30,12 +30,17 @@ class AdminControllerTest extends TestCase
 
         $this->actingAsAdmin()
             ->postJson('api/admin/admins', ['username' => 'admin1'])
-            ->assertJsonStructure(['message', 'errors' =>['name', 'password']])
+            ->assertJsonStructure(['message', 'errors' =>['name']])
             ->assertStatus(422);
 
         $this->actingAsAdmin()
-            ->postJson('api/admin/admins', ['username' => 'admin', 'name' => 'Admin'])
-            ->assertJsonStructure(['message', 'errors' =>['password', 'username', 'name']])
+            ->postJson('api/admin/admins', ['username' => 'admin1', 'name' => 'Admin1'])
+            ->assertJsonStructure(['message', 'errors' =>['password']])
+            ->assertStatus(422);
+
+        $this->actingAsAdmin()
+            ->postJson('api/admin/admins', ['username' => 'admin', 'name' => 'Admin', 'password' => 'admin.123'])
+            ->assertJsonStructure(['message', 'errors' =>['username', 'name']])
             ->assertStatus(422);
     }
 

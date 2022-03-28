@@ -7,6 +7,7 @@ use App\Models\AdminPage;
 use App\Support\Routing\BaseController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 
 /**
  * @title 后台页面管理
@@ -59,7 +60,7 @@ class AdminPageController extends BaseController
     public function update(AdminPageRequest $request, AdminPage $adminPage): JsonResponse
     {
         $request->validate([
-            'path' => $adminPage->uniqueRule(),
+            'path' => Rule::unique('admin_pages')->ignore($adminPage),
         ], [], $request->attributes());
 
         return $adminPage->sanitizeFill($request)->save()

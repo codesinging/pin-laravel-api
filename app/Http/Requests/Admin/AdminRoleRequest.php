@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminStoreRequest extends FormRequest
+class AdminRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +24,14 @@ class AdminStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|unique:admins',
-            'name' => 'required|unique:admins',
-            'password' => 'required',
+            'name' => 'required',
         ];
     }
 
     public function attributes()
     {
         return [
-            'name' => '管理员名称',
-            'username' => '登录账号',
-            'password' => '登录密码',
+            'name' => '角色名称',
         ];
     }
 }

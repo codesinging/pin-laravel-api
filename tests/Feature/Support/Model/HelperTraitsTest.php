@@ -20,6 +20,5 @@ class HelperTraitsTest extends TestCase
         self::assertArrayHasKey(SerializeDate::class, class_uses(HelperTraits::class));
         self::assertArrayHasKey(Sanitize::class, class_uses(HelperTraits::class));
         self::assertArrayHasKey(QueryLister::class, class_uses(HelperTraits::class));
-        self::assertArrayHasKey(UniqueRule::class, class_uses(HelperTraits::class));
     }
 }
