@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\AdminPageDeleted;
+use App\Events\AdminPageSaved;
 use App\Support\Model\BaseModel;
 
 class AdminPage extends BaseModel
@@ -15,5 +17,10 @@ class AdminPage extends BaseModel
 
     protected $casts = [
         'status' => 'boolean',
+    ];
+
+    protected $dispatchesEvents = [
+        'saved' => AdminPageSaved::class,
+        'deleted' => AdminPageDeleted::class,
     ];
 }

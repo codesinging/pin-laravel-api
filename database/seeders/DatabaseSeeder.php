@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\AdminPage;
-use App\Models\AdminRoute;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,7 +18,7 @@ class DatabaseSeeder extends Seeder
             AdminPageSeeder::class,
             AdminMenuSeeder::class,
             AdminRouteSeeder::class,
-            AdminAuthPermissionSeeder::class,
+            AdminRoleSeeder::class,
         ]);
     }
 }
