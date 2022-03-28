@@ -6,6 +6,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
 
 class AdminAuthRole extends Role
@@ -29,12 +31,24 @@ class AdminAuthRole extends Role
      *
      * @param AdminRole $role
      *
-     * @return void
+     * @return Builder|Model
      */
-    public static function createFrom(AdminRole $role)
+    public static function createFrom(AdminRole $role): Model|Builder
     {
-        self::create([
+        return self::create([
             'name' => self::createName($role),
         ]);
+    }
+
+    /**
+     * 根据指定的系统角色模型同步权限模型
+     *
+     * @param AdminRole $role
+     *
+     * @return \Spatie\Permission\Contracts\Role
+     */
+    public static function syncFrom(AdminRole $role): \Spatie\Permission\Contracts\Role
+    {
+        return self::findOrCreate(self::createName($role));
     }
 }

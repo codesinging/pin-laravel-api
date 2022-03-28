@@ -6,6 +6,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
 
 class AdminAuthPermission extends Permission
@@ -29,12 +31,24 @@ class AdminAuthPermission extends Permission
      *
      * @param AdminRoute|AdminPage|AdminMenu $model
      *
-     * @return void
+     * @return Builder|Model
      */
-    public static function createFrom(AdminRoute|AdminPage|AdminMenu $model)
+    public static function createFrom(AdminRoute|AdminPage|AdminMenu $model): Model|Builder
     {
-        self::create([
+        return self::create([
             'name' => self::createName($model),
         ]);
+    }
+
+    /**
+     * 根据指定的模型创建对应的权限
+     *
+     * @param AdminRoute|AdminPage|AdminMenu $model
+     *
+     * @return \Spatie\Permission\Contracts\Permission
+     */
+    public static function syncFrom(AdminRoute|AdminPage|AdminMenu $model): \Spatie\Permission\Contracts\Permission
+    {
+        return self::findOrCreate(self::createName($model));
     }
 }

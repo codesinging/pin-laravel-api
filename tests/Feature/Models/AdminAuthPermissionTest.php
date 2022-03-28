@@ -49,4 +49,16 @@ class AdminAuthPermissionTest extends TestCase
         self::assertNotNull(AdminAuthPermission::findByName(AdminAuthPermission::createName($adminPage)));
         self::assertNotNull(AdminAuthPermission::findByName(AdminAuthPermission::createName($adminMenu)));
     }
+
+    public function testSyncFrom()
+    {
+        $this->seed(AdminRouteSeeder::class);
+        $adminRoute = AdminRoute::new()->first();
+        $permission1 = AdminAuthPermission::createFrom($adminRoute);
+        $permission2 = AdminAuthPermission::syncFrom($adminRoute);
+
+        $this->assertDatabaseHas($permission1, ['name' => AdminAuthPermission::createName($adminRoute)]);
+        self::assertEquals($permission1['id'], $permission2['id']);
+        $this->assertDatabaseCount($permission1, 1);
+    }
 }
