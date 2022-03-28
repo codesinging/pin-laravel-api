@@ -11,6 +11,13 @@ class AdminAuthRoleTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function testDefaultGuard()
+    {
+        AdminAuthRole::create(['name' => 'test']);
+
+        self::assertEquals('sanctum', AdminAuthRole::findByName('test')['guard_name']);
+    }
+
     public function testCreateName()
     {
         $adminRole = AdminRole::new()->create(['name' => 'Name']);
