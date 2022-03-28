@@ -16,4 +16,5 @@ class BaseController extends Controller
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     use ApiResponses;
+    use ValidateUnique;
 }
