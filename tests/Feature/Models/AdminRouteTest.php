@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Models;
 
-use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Models\AdminRoute;
 use App\Support\Routing\RouteParser;
 use Database\Seeders\AdminRouteSeeder;
@@ -28,7 +28,7 @@ class AdminRouteTest extends TestCase
      */
     public function testSyncFrom()
     {
-        $route = AuthController::class . '@login';
+        $route = AdminController::class . '@index';
 
         AdminRoute::syncFrom($route);
 
@@ -45,7 +45,7 @@ class AdminRouteTest extends TestCase
      */
     public function testFindFrom()
     {
-        $route = AuthController::class . '@login';
+        $route = AdminController::class . '@index';
 
         $adminRoute = AdminRoute::syncFrom($route);
 

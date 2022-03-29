@@ -15,6 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
+/**
+ * @title 管理员管理
+ */
 class AdminController extends BaseController
 {
     /**

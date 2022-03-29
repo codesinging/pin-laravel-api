@@ -14,13 +14,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-/**
- * @title 管理员认证
- */
 class AuthController extends BaseController
 {
     /**
-     * @title 管理员登录
+     * 管理员登录
+     *
      * @throws ValidationException
      */
     public function login(Request $request): JsonResponse
@@ -54,7 +52,7 @@ class AuthController extends BaseController
     }
 
     /**
-     * @title 注销登录
+     * 注销登录
      *
      * @param Request $request
      *
@@ -71,7 +69,7 @@ class AuthController extends BaseController
     }
 
     /**
-     * @title 获取登录用户
+     * 获取登录用户
      *
      * @param Request $request
      *

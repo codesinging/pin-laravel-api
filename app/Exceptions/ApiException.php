@@ -14,6 +14,6 @@ class ApiException extends \Exception
     #[Pure]
     public function __construct(string $message = "", ErrorCode $code = ErrorCode::ERROR, ?Throwable $previous = null)
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, $code->value, $previous);
     }
 }

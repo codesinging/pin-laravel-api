@@ -15,6 +15,6 @@ class AdminRouteSeederTest extends TestCase
     {
         $this->seed(AdminRouteSeeder::class);
 
-        $this->assertDatabaseHas('admin_routes', ['controller' => 'Admin/Auth']);
+        $this->assertDatabaseHas('admin_routes', ['controller' => 'Admin/Admin']);
     }
 }
