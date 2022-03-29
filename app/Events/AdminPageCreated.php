@@ -3,17 +3,17 @@
 namespace App\Events;
 
 use App\Models\AdminAuthPermission;
-use App\Models\AdminMenu;
+use App\Models\AdminPage;
 
-class AdminMenuSaved
+class AdminPageCreated
 {
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(AdminMenu $adminMenu)
+    public function __construct(AdminPage $adminPage)
     {
-        AdminAuthPermission::syncFrom($adminMenu);
+        AdminAuthPermission::createFrom($adminPage);
     }
 }

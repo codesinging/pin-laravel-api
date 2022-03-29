@@ -8,7 +8,7 @@ use Database\Seeders\AdminPageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class AdminPageSavedTest extends TestCase
+class AdminPageCreatedTest extends TestCase
 {
     use RefreshDatabase;
 

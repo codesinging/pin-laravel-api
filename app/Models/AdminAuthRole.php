@@ -41,18 +41,6 @@ class AdminAuthRole extends Role
     }
 
     /**
-     * 根据指定的系统角色模型同步权限角色
-     *
-     * @param Model $model
-     *
-     * @return \Spatie\Permission\Contracts\Role
-     */
-    public static function syncFrom(Model $model): \Spatie\Permission\Contracts\Role
-    {
-        return self::findOrCreate(self::createName($model));
-    }
-
-    /**
      * 根据系统角色模型查找关联的权限角色
      *
      * @param Model $model

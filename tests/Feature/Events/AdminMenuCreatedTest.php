@@ -8,7 +8,7 @@ use Database\Seeders\AdminMenuSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class AdminMenuSavedTest extends TestCase
+class AdminMenuCreatedTest extends TestCase
 {
     use RefreshDatabase;
 

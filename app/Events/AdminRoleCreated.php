@@ -5,7 +5,7 @@ namespace App\Events;
 use App\Models\AdminAuthRole;
 use App\Models\AdminRole;
 
-class AdminRoleSaved
+class AdminRoleCreated
 {
     /**
      * Create a new event instance.
@@ -14,6 +14,6 @@ class AdminRoleSaved
      */
     public function __construct(AdminRole $adminRole)
     {
-        AdminAuthRole::syncFrom($adminRole);
+        AdminAuthRole::createFrom($adminRole);
     }
 }

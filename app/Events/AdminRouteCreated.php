@@ -5,7 +5,7 @@ namespace App\Events;
 use App\Models\AdminAuthPermission;
 use App\Models\AdminRoute;
 
-class AdminRouteSaved
+class AdminRouteCreated
 {
     /**
      * Create a new event instance.
@@ -14,6 +14,6 @@ class AdminRouteSaved
      */
     public function __construct(AdminRoute $adminRoute)
     {
-        AdminAuthPermission::syncFrom($adminRoute);
+        AdminAuthPermission::createFrom($adminRoute);
     }
 }

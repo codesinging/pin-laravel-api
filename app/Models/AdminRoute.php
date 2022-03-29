@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Events\AdminRouteDeleted;
-use App\Events\AdminRouteSaved;
+use App\Events\AdminRouteCreated;
 use App\Support\Model\BaseModel;
 
 class AdminRoute extends BaseModel
@@ -16,7 +16,7 @@ class AdminRoute extends BaseModel
     ];
 
     protected $dispatchesEvents = [
-        'saved' => AdminRouteSaved::class,
+        'created' => AdminRouteCreated::class,
         'deleted' => AdminRouteDeleted::class,
     ];
 }

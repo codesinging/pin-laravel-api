@@ -41,18 +41,6 @@ class AdminAuthPermission extends Permission
     }
 
     /**
-     * 根据指定的模型创建对应的权限
-     *
-     * @param Model $model
-     *
-     * @return \Spatie\Permission\Contracts\Permission
-     */
-    public static function syncFrom(Model $model): \Spatie\Permission\Contracts\Permission
-    {
-        return self::findOrCreate(self::createName($model));
-    }
-
-    /**
      * 根据指定的系统模型查找关联的权限
      *
      * @param Model $model

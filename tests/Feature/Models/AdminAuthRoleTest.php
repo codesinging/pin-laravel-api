@@ -36,20 +36,6 @@ class AdminAuthRoleTest extends TestCase
         self::assertNotNull(AdminAuthRole::findByName(AdminAuthRole::createName($adminRole)));
     }
 
-    public function testSyncFrom()
-    {
-        $adminRole = AdminRole::new()->create(['name' => 'Name']);
-
-        AdminAuthRole::deleteFrom($adminRole);
-
-        $role1 = AdminAuthRole::createFrom($adminRole);
-        $role2 = AdminAuthRole::syncFrom($adminRole);
-
-        self::assertNotNull(AdminAuthRole::findByName(AdminAuthRole::createName($adminRole)));
-        self::assertEquals($role1['id'], $role2['id']);
-        $this->assertDatabaseCount($role1, 1);
-    }
-
     public function testFindFrom()
     {
         $adminRole = AdminRole::new()->create(['name' => 'Name']);

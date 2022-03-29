@@ -8,7 +8,7 @@ use Database\Seeders\AdminRouteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class AdminRouteSavedTest extends TestCase
+class AdminRouteCreatedTest extends TestCase
 {
     use RefreshDatabase;
 

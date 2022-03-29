@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Events\AdminMenuDeleted;
-use App\Events\AdminMenuSaved;
+use App\Events\AdminMenuCreated;
 use App\Support\Model\BaseModel;
 use Kalnoy\Nestedset\NodeTrait;
 
@@ -29,7 +29,7 @@ class AdminMenu extends BaseModel
     ];
 
     protected $dispatchesEvents = [
-        'saved' => AdminMenuSaved::class,
+        'created' => AdminMenuCreated::class,
         'deleted' => AdminMenuDeleted::class,
     ];
 }

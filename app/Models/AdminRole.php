@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Events\AdminRoleDeleted;
-use App\Events\AdminRoleSaved;
+use App\Events\AdminRoleCreated;
 use App\Support\Model\BaseModel;
 use Spatie\Permission\Contracts\Role;
 
@@ -21,7 +21,7 @@ class AdminRole extends BaseModel
     ];
 
     protected $dispatchesEvents = [
-        'saved' => AdminRoleSaved::class,
+        'created' => AdminRoleCreated::class,
         'deleted' => AdminRoleDeleted::class,
     ];
 
