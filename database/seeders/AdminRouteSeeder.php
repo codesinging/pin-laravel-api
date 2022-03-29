@@ -20,31 +20,7 @@ class AdminRouteSeeder extends Seeder
     public function run()
     {
         RouteParser::collect('api/admin')
-            ->each(fn(Route $route) => $this->sync($route));
+            ->each(fn(Route $route) => AdminRoute::syncFrom($route));
     }
 
-    /**
-     * @throws ReflectionException
-     */
-    public function sync(Route|string $route)
-    {
-        $parser = new RouteParser($route);
-
-        $action = $parser->action();
-
-        $reflection = new ClassReflection($parser->class());
-
-        $controllerTitle = $reflection->classTitle();
-        $actionTitle = $reflection->methodTitle($action);
-
-        if (!is_null($controllerTitle) && !is_null($actionTitle)) {
-            AdminRoute::new()->updateOrCreate([
-                'controller' => $parser->controller(),
-                'action' => $action,
-            ], [
-                'controller_title' => $controllerTitle,
-                'action_title' => $actionTitle,
-            ]);
-        }
-    }
 }
