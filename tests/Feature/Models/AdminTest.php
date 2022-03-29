@@ -2,10 +2,8 @@
 
 namespace Tests\Feature\Models;
 
-use App\Models\Admin;
 use App\Models\AdminAuthPermission;
 use App\Models\AdminAuthRole;
-use App\Models\AdminRole;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -100,7 +98,7 @@ class AdminTest extends TestCase
         }
 
         $admin->assignRole('role1');
-        $admin->assignRole(['role1','role3']);
+        $admin->assignRole(['role1', 'role3']);
 
         self::assertTrue($admin->hasAllRoles(['role1', 'role3']));
         self::assertFalse($admin->hasAnyRole('role2'));
@@ -153,5 +151,30 @@ class AdminTest extends TestCase
 
         self::assertTrue($admin->can(['permission1', 'permission3', 'permission4']));
         self::assertFalse($admin->can(['permission2']));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCommonAndSuperAdminPermission()
+    {
+        $this->seedAdmin();
+
+        $commonAdmin = $this->getAdmin(false);
+        $superAdmin = $this->getAdmin(true);
+
+        $permissions = [
+            ['name' => 'permission1'],
+            ['name' => 'permission2'],
+            ['name' => 'permission3'],
+            ['name' => 'permission4'],
+        ];
+
+        foreach ($permissions as $permission) {
+            AdminAuthPermission::create($permission);
+        }
+
+        self::assertFalse($commonAdmin->can(['permission1', 'permission2', 'permission3', 'permission4']));
+        self::assertTrue($superAdmin->can(['permission1', 'permission2', 'permission3', 'permission4']));
     }
 }

@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Support\Model\AuthModel;
+use App\Support\Model\IsSuperContract;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Permission\Traits\HasRoles;
 
-class Admin extends AuthModel
+class Admin extends AuthModel implements IsSuperContract
 {
     use HasRoles;
 
