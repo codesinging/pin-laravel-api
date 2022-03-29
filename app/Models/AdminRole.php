@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Events\AdminRoleDeleted;
 use App\Events\AdminRoleCreated;
+use App\Support\Model\AuthRoleContract;
 use App\Support\Model\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Contracts\Role;
 
-class AdminRole extends BaseModel
+class AdminRole extends BaseModel implements AuthRoleContract
 {
     protected $fillable = [
         'name',
@@ -24,6 +26,18 @@ class AdminRole extends BaseModel
         'created' => AdminRoleCreated::class,
         'deleted' => AdminRoleDeleted::class,
     ];
+
+    protected $with = [
+        'role',
+    ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(AdminAuthRole::class, 'role_id');
+    }
 
     /**
      * @return Role|\Spatie\Permission\Models\Role

@@ -17,6 +17,7 @@ return new class extends Migration {
 
             $table->nestedSet();
 
+            $table->unsignedInteger('permission_id')->nullable()->unique()->comment('关联权限ID');
             $table->string('name')->comment('菜单名称');
             $table->string('path')->nullable()->comment('菜单路由路径');
             $table->string('url')->nullable()->comment('外部链接地址');

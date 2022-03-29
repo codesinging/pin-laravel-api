@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('admin_pages', function (Blueprint $table) {
             $table->id();
 
+            $table->unsignedInteger('permission_id')->nullable()->unique()->comment('关联权限ID');
             $table->string('name')->comment('页面名称');
             $table->string('path')->unique()->comment('页面路径');
             $table->unsignedBigInteger('sort')->default(0)->comment('排列序号，降序');

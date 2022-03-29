@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Support\Model\AuthPermissionContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
@@ -29,15 +30,19 @@ class AdminAuthPermission extends Permission
     /**
      * 根据指定的模型创建对应的权限
      *
-     * @param Model $model
+     * @param Model|AuthPermissionContract $model
      *
      * @return Builder|Model
      */
-    public static function createFrom(Model $model): Model|Builder
+    public static function createFrom(Model|AuthPermissionContract $model): Model|Builder
     {
-        return self::create([
+        $permission = self::create([
             'name' => self::createName($model),
         ]);
+
+        $model->permission()->associate($permission)->save();
+
+        return $permission;
     }
 
     /**

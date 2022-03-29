@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Support\Model\AuthRoleContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
@@ -29,15 +30,19 @@ class AdminAuthRole extends Role
     /**
      * 根据指定的系统角色模型生成权限角色
      *
-     * @param Model $model
+     * @param Model|AuthRoleContract $model
      *
      * @return Builder|Model
      */
-    public static function createFrom(Model $model): Model|Builder
+    public static function createFrom(Model|AuthRoleContract $model): Model|Builder
     {
-        return self::create([
+        $role =  self::create([
             'name' => self::createName($model),
         ]);
+
+        $model->role()->associate($role)->save();
+
+        return $role;
     }
 
     /**

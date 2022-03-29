@@ -31,9 +31,11 @@ class AdminAuthRoleTest extends TestCase
 
         AdminAuthRole::deleteFrom($adminRole);
 
-        AdminAuthRole::createFrom($adminRole);
+        $adminAuthRole = AdminAuthRole::createFrom($adminRole);
 
-        self::assertNotNull(AdminAuthRole::findByName(AdminAuthRole::createName($adminRole)));
+        $this->assertDatabaseHas($adminAuthRole, ['id' => $adminAuthRole['id']]);
+        self::assertEquals($adminRole['role_id'], $adminAuthRole['id']);
+        self::assertEquals($adminRole['role_id'], $adminRole['role']['id']);
     }
 
     public function testFindFrom()

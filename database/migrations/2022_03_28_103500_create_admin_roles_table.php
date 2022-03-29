@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('admin_roles', function (Blueprint $table) {
             $table->id();
 
+            $table->unsignedInteger('role_id')->nullable()->unique()->comment('关联权限角色ID');
             $table->string('name')->unique()->comment('角色名称');
             $table->string('description')->nullable()->comment('角色描述');
             $table->unsignedBigInteger('sort')->default(0)->comment('排列序号，升序');

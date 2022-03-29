@@ -52,13 +52,25 @@ class AdminAuthPermissionTest extends TestCase
         AdminAuthPermission::deleteFrom($adminPage);
         AdminAuthPermission::deleteFrom($adminMenu);
 
-        AdminAuthPermission::createFrom($adminRoute);
-        AdminAuthPermission::createFrom($adminPage);
-        AdminAuthPermission::createFrom($adminMenu);
+        $adminRoutePermission = AdminAuthPermission::createFrom($adminRoute);
+        $adminPagePermission = AdminAuthPermission::createFrom($adminPage);
+        $adminMenuPermission = AdminAuthPermission::createFrom($adminMenu);
 
-        self::assertNotNull(AdminAuthPermission::findByName(AdminAuthPermission::createName($adminRoute)));
-        self::assertNotNull(AdminAuthPermission::findByName(AdminAuthPermission::createName($adminPage)));
-        self::assertNotNull(AdminAuthPermission::findByName(AdminAuthPermission::createName($adminMenu)));
+        $adminRoute->refresh();
+        $adminPage->refresh();
+        $adminMenu->refresh();
+
+        $this->assertDatabaseHas($adminRoutePermission, ['id' => $adminRoutePermission['id']]);
+        $this->assertDatabaseHas($adminPagePermission, ['id' => $adminPagePermission['id']]);
+        $this->assertDatabaseHas($adminMenuPermission, ['id' => $adminMenuPermission['id']]);
+
+        self::assertEquals($adminRoute['permission_id'], $adminRoutePermission['id']);
+        self::assertEquals($adminPage['permission_id'], $adminPagePermission['id']);
+        self::assertEquals($adminMenu['permission_id'], $adminMenuPermission['id']);
+
+        self::assertEquals($adminRoute['permission_id'], $adminRoute['permission']['id']);
+        self::assertEquals($adminPage['permission_id'], $adminPage['permission']['id']);
+        self::assertEquals($adminMenu['permission_id'], $adminMenu['permission']['id']);
     }
 
     public function testFindFrom()
