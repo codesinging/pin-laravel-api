@@ -2,6 +2,11 @@
 
 namespace Tests\Feature\Models;
 
+use App\Models\Admin;
+use App\Models\AdminAuthPermission;
+use App\Models\AdminAuthRole;
+use App\Models\AdminRole;
+use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\AdminActing;
@@ -12,7 +17,7 @@ class AdminTest extends TestCase
     use AdminActing;
     use RefreshDatabase;
 
-    public function test_update_admin_with_password_attribute()
+    public function testUpdateAdminWithPasswordAttribute()
     {
         $this->seedAdmin();
 
@@ -26,7 +31,7 @@ class AdminTest extends TestCase
         self::assertTrue(Hash::check('admin.111', $admin['password']));
     }
 
-    public function test_update_admin_without_password_attribute()
+    public function testUpdateAdminWithoutPasswordAttribute()
     {
         $this->seedAdmin();
 
@@ -40,11 +45,113 @@ class AdminTest extends TestCase
         self::assertEquals('AdminNew', $admin['name']);
     }
 
-    public function test_is_super()
+    public function testIsSuper()
     {
         $this->seedAdmin();
 
         self::assertFalse($this->getAdmin(false)->isSuper());
         self::assertTrue($this->getAdmin(true)->isSuper());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGiveDirectPermissions()
+    {
+        $this->seedAdmin();
+
+        $admin = $this->getAdmin(false);
+
+        $permissions = [
+            ['name' => 'permission1'],
+            ['name' => 'permission2'],
+            ['name' => 'permission3'],
+        ];
+
+        foreach ($permissions as $permission) {
+            AdminAuthPermission::create($permission);
+        }
+
+        $admin->givePermissionTo(['permission1']);
+        $admin->givePermissionTo('permission3');
+
+        self::assertTrue($admin->hasAllPermissions(['permission1', 'permission3']));
+        self::assertFalse($admin->hasAnyPermission(['permission2']));
+
+        self::assertTrue($admin->can('permission1'));
+        self::assertTrue($admin->can(['permission3']));
+        self::assertFalse($admin->can('permission2'));
+    }
+
+    public function testAssignRoles()
+    {
+        $this->seedAdmin();
+
+        $admin = $this->getAdmin(false);
+
+        $roles = [
+            ['name' => 'role1'],
+            ['name' => 'role2'],
+            ['name' => 'role3'],
+        ];
+
+        foreach ($roles as $role) {
+            AdminAuthRole::create($role);
+        }
+
+        $admin->assignRole('role1');
+        $admin->assignRole(['role1','role3']);
+
+        self::assertTrue($admin->hasAllRoles(['role1', 'role3']));
+        self::assertFalse($admin->hasAnyRole('role2'));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGivePermissionsViaRoles()
+    {
+        $this->seedAdmin();
+
+        $admin = $this->getAdmin(false);
+
+        $roles = [
+            ['name' => 'role1'],
+            ['name' => 'role2'],
+            ['name' => 'role3'],
+        ];
+
+        foreach ($roles as $role) {
+            AdminAuthRole::create($role);
+        }
+
+        $permissions = [
+            ['name' => 'permission1'],
+            ['name' => 'permission2'],
+            ['name' => 'permission3'],
+            ['name' => 'permission4'],
+        ];
+
+        foreach ($permissions as $permission) {
+            AdminAuthPermission::create($permission);
+        }
+
+        $admin->assignRole('role1');
+        $admin->assignRole(['role3']);
+
+        $role1 = AdminAuthRole::findByName('role1');
+        $role3 = AdminAuthRole::findByName('role3');
+
+        $role1->givePermissionTo('permission1');
+        $role3->givePermissionTo(['permission3', 'permission4']);
+
+        self::assertTrue($admin->hasAllRoles(['role1', 'role3']));
+        self::assertFalse($admin->hasAnyRole('role2'));
+
+        self::assertTrue($admin->hasAllPermissions(['permission1', 'permission3', 'permission4']));
+        self::assertFalse($admin->hasAnyPermission(['permission2']));
+
+        self::assertTrue($admin->can(['permission1', 'permission3', 'permission4']));
+        self::assertFalse($admin->can(['permission2']));
     }
 }
