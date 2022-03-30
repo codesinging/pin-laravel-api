@@ -4,6 +4,8 @@ namespace Tests\Feature\Controllers\Admin;
 
 use App\Exceptions\ErrorCode;
 use App\Models\Admin;
+use App\Models\AdminPage;
+use Database\Seeders\AdminPageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Tests\AdminActing;
@@ -14,21 +16,21 @@ class AuthControllerTest extends TestCase
     use RefreshDatabase;
     use AdminActing;
 
-    public function test_login_validation()
+    public function testLoginValidate()
     {
         $this->postJson('api/admin/auth/login', [])
             ->assertStatus(422)
             ->assertJsonStructure(['message', 'errors' => ['username', 'password']]);
     }
 
-    public function test_login_user_not_exists()
+    public function testLoginUserNotExists()
     {
         $this->postJson('api/admin/auth/login', ['username' => 'not_exists', 'password' => '111111'])
             ->assertOk()
             ->assertJsonPath('code', ErrorCode::AUTH_USER_NOT_EXISTED->value);
     }
 
-    public function test_login_password_not_matched()
+    public function testLoginPasswordNotMatched()
     {
         $this->seedAdmin();
         $this->postJson('api/admin/auth/login', ['username' => 'admin', 'password' => '111111'])
@@ -36,7 +38,7 @@ class AuthControllerTest extends TestCase
             ->assertJsonPath('code', ErrorCode::AUTH_PASSWORD_NOT_MATCHED->value);
     }
 
-    public function test_login_user_status_error()
+    public function testLoginUserStatusError()
     {
         $this->seedAdmin();
         $admin = $this->getAdmin();
@@ -50,7 +52,7 @@ class AuthControllerTest extends TestCase
             ->assertJsonPath('code', ErrorCode::AUTH_USER_STATUS_ERROR->value);
     }
 
-    public function test_login()
+    public function testLogin()
     {
         $this->seedAdmin();
 
@@ -61,7 +63,7 @@ class AuthControllerTest extends TestCase
             ->assertJsonPath('data.admin.username', 'admin');
     }
 
-    public function test_logout()
+    public function testLogout()
     {
         $this->seedAdmin();
         $admin = $this->getAdmin();
@@ -82,7 +84,7 @@ class AuthControllerTest extends TestCase
         self::assertCount(0, $user->tokens()->get()->toArray());
     }
 
-    public function test_user()
+    public function testUser()
     {
         $this->seedAdmin();
         $admin = $this->getAdmin();
@@ -92,5 +94,47 @@ class AuthControllerTest extends TestCase
             ->assertOk()
             ->assertJsonPath('code', 0)
             ->assertJsonPath('data.id', $admin['id']);
+    }
+
+    public function testPagesUsingSuperAdmin()
+    {
+        $this->seed(AdminPageSeeder::class);
+
+        $adminPages = AdminPage::new()->where('status', true)->get();
+
+        $last = $adminPages->count()-1;
+
+        $this->seedAdmin()
+            ->actingAsAdmin(true)
+            ->getJson('api/admin/auth/pages')
+            ->assertJsonPath('code', 0)
+            ->assertJsonPath("data.0.id", $adminPages->first()['id'])
+            ->assertJsonPath("data.{$last}.id", $adminPages->last()['id'])
+            ->assertOk();
+    }
+
+    public function testPagesUsingCommonAdmin()
+    {
+        $this->seed(AdminPageSeeder::class);
+        $this->seedAdmin();
+
+        $adminPages = AdminPage::new()->where('status', true)->get();
+
+        $admin = $this->getAdmin(false);
+
+        $this->actingAsAdmin($admin)
+            ->getJson('api/admin/auth/pages')
+            ->assertJsonPath('code', 0)
+            ->assertJsonPath("data", [])
+            ->assertOk();
+
+        $admin->givePermissionTo($adminPages->first()['permission_id']);
+
+        $this->actingAsAdmin($admin)
+            ->getJson('api/admin/auth/pages')
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('code', 0)
+            ->assertJsonPath("data.0.id", $adminPages->first()['id'])
+            ->assertOk();
     }
 }

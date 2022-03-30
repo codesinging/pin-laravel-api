@@ -8,6 +8,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\ErrorCode;
 use App\Models\Admin;
+use App\Models\AdminPage;
 use App\Support\Routing\BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -78,5 +79,26 @@ class AuthController extends BaseController
     public function user(Request $request): JsonResponse
     {
         return $this->success('获取认证用户成功', $request->user());
+    }
+
+    /**
+     * 获取拥有权限的页面列表
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function pages(Request $request): JsonResponse
+    {
+        /** @var Admin $user */
+        $user = $request->user();
+
+        if ($user->isSuper()){
+            $pages = AdminPage::new()->where('status', true)->get();
+        } else {
+            $pages = AdminPage::new()->where('status', true)->whereIn('permission_id', $user->getPermissionsFrom(AdminPage::class)->pluck('id'))->get();
+        }
+
+        return $this->success('获取页面列表成功', $pages);
     }
 }
