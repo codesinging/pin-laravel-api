@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers\Admin;
 
 use App\Exceptions\ErrorCode;
+use App\Models\Admin;
 use App\Models\AdminAuthPermission;
 use App\Models\AdminAuthRole;
 use Exception;
@@ -61,15 +62,23 @@ class AdminControllerTest extends TestCase
     {
         $this->seedAdmin();
 
-        $admin1 = $this->getAdmin(['id' => 1]);
-        $admin2 = $this->getAdmin(['id' => 2]);
+        $admin1 = Admin::new()->create([
+            'username' => 'username1',
+            'name' => 'name1',
+            'password' => 'password',
+        ]);
+        $admin2 =  Admin::new()->create([
+            'username' => 'username2',
+            'name' => 'name2',
+            'password' => 'password',
+        ]);
 
-        $this->actingAsAdmin()
+        $this->actingAsAdmin(true)
             ->putJson('api/admin/admins/' . $admin1['id'], ['username' => 'new username'])
             ->assertJsonStructure(['message', 'errors' => ['name']])
             ->assertStatus(422);
 
-        $this->actingAsAdmin()
+        $this->actingAsAdmin(true)
             ->putJson('api/admin/admins/' . $admin1['id'], ['username' => $admin2['username'], 'name' => $admin2['name']])
             ->assertJsonStructure(['message', 'errors' => ['name', 'username']])
             ->assertStatus(422);
@@ -115,7 +124,7 @@ class AdminControllerTest extends TestCase
 
         $this->actingAsAdmin($admin)
             ->putJson('api/admin/admins/' . $superAdmin['id'], ['username' => 'new username', 'name' => 'new name', 'password' => 'new password'])
-            ->assertJsonPath('code', ErrorCode::SUPER_ADMIN_UPDATE_ERROR->value)
+            ->assertJsonPath('code', ErrorCode::SUPER_ADMIN_UPDATE_ERROR)
             ->assertOk();
 
         $superAdmin->refresh();
@@ -128,16 +137,18 @@ class AdminControllerTest extends TestCase
         $this->seedAdmin();
 
         $superAdmin = $this->getAdmin(true);
+        $commonAdmin = $this->getAdmin(false);
 
         $this->actingAsAdmin($superAdmin)
-            ->putJson('api/admin/admins/' . $superAdmin['id'], ['username' => 'new username', 'name' => 'new name', 'password' => 'new password'])
-            ->assertJsonPath('code', ErrorCode::OK->value)
+            ->putJson('api/admin/admins/' . $commonAdmin['id'], ['username' => 'new username', 'name' => 'new name', 'password' => 'new password'])
+            ->assertJsonPath('code', ErrorCode::OK)
             ->assertOk();
 
-        $superAdmin->refresh();
-        self::assertEquals('new username', $superAdmin['username']);
-        self::assertEquals('new name', $superAdmin['name']);
-        self::assertTrue(Hash::check('new password', $superAdmin['password']));
+        $commonAdmin->refresh();
+
+        self::assertEquals('new username', $commonAdmin['username']);
+        self::assertEquals('new name', $commonAdmin['name']);
+        self::assertTrue(Hash::check('new password', $commonAdmin['password']));
     }
 
     public function testShow()
@@ -183,7 +194,7 @@ class AdminControllerTest extends TestCase
 
         $this->actingAsAdmin($superAdmin)
             ->deleteJson('api/admin/admins/' . $superAdmin['id'])
-            ->assertJsonPath('code', ErrorCode::SUPER_ADMIN_DELETE_ERROR->value)
+            ->assertJsonPath('code', ErrorCode::SUPER_ADMIN_DELETE_ERROR)
             ->assertOk();
 
         $this->assertDatabaseHas('admins', ['id' => $superAdmin['id']]);

@@ -26,7 +26,7 @@ class ApiResponsesTest extends TestCase
 
         self::assertEquals(200, (new BaseController())->error()->status());
         self::assertEquals('error', (new BaseController())->error('error')->getData(true)['message']);
-        self::assertEquals(ErrorCode::ERROR->value, (new BaseController())->error()->getData(true)['code']);
-        self::assertEquals(ErrorCode::VALIDATION_ERROR->value, (new BaseController())->error('error', ErrorCode::VALIDATION_ERROR)->getData(true)['code']);
+        self::assertEquals(ErrorCode::ERROR, (new BaseController())->error()->getData(true)['code']);
+        self::assertEquals(ErrorCode::VALIDATION_ERROR, (new BaseController())->error('error', ErrorCode::VALIDATION_ERROR)->getData(true)['code']);
     }
 }

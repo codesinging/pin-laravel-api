@@ -23,7 +23,7 @@ trait ApiResponses
      */
     public function success(Model|array|string|Collection $message = null, Model|array|Collection $data = null): JsonResponse
     {
-        $code = ErrorCode::OK->value;
+        $code = ErrorCode::OK;
         is_string($message) or list($data, $message) = [$message, $data];
         return response()->json(compact('code', 'message', 'data'));
     }
@@ -32,12 +32,12 @@ trait ApiResponses
      * 返回错误的 json 响应
      *
      * @param string|null $message
-     * @param int|ErrorCode $code
+     * @param int $code
      * @param mixed|null $data
      *
      * @return JsonResponse
      */
-    public function error(string $message = null, int|ErrorCode $code = ErrorCode::ERROR, mixed $data = null): JsonResponse
+    public function error(string $message = null, int $code = ErrorCode::ERROR, mixed $data = null): JsonResponse
     {
         return response()->json(compact('message', 'code', 'data'));
     }

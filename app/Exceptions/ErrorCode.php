@@ -6,18 +6,18 @@
 
 namespace App\Exceptions;
 
-enum ErrorCode: int
+class ErrorCode
 {
-    case OK = 0;
+    const OK = 0;
 
-    case ERROR = -1;
+    const ERROR = -1;
 
-    case SUPER_ADMIN_UPDATE_ERROR = 900100;
-    case SUPER_ADMIN_DELETE_ERROR = 900101;
+    const SUPER_ADMIN_UPDATE_ERROR = 900100;
+    const SUPER_ADMIN_DELETE_ERROR = 900101;
 
-    case VALIDATION_ERROR = 900200;
+    const VALIDATION_ERROR = 900200;
 
-    case AUTH_USER_NOT_EXISTED = 900300;
-    case AUTH_PASSWORD_NOT_MATCHED = 900301;
-    case AUTH_USER_STATUS_ERROR = 900302;
+    const AUTH_USER_NOT_EXISTED = 900300;
+    const AUTH_PASSWORD_NOT_MATCHED = 900301;
+    const AUTH_USER_STATUS_ERROR = 900302;
 }

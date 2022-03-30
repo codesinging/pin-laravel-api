@@ -6,15 +6,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\Routing\BaseController;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
-class TestController extends Controller
+class TestController extends BaseController
 {
     public function index()
     {
-        dump($actionName = Request::route()->getActionName());
-
-        dump(Str::between($actionName, 'App\\Http\\Controllers\\', 'Controller@'));
+        return $this->success('test');
     }
 }

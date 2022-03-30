@@ -3,7 +3,6 @@
 namespace Tests\Feature\Support\Model;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Tests\AdminActing;
 use Tests\TestCase;
@@ -13,7 +12,7 @@ class IsAuthenticatedUserTest extends TestCase
     use RefreshDatabase;
     use AdminActing;
 
-    public function test_not_authenticated()
+    public function testNotAuthenticated()
     {
         $this->seedAdmin();
         $admin = $this->getAdmin();
@@ -21,7 +20,7 @@ class IsAuthenticatedUserTest extends TestCase
         self::assertFalse($admin->isAuthenticatedUser());
     }
 
-    public function test_authenticated()
+    public function testAuthenticated()
     {
         $this->seedAdmin();
         $admin1 = $this->getAdmin(['id' => 1]);

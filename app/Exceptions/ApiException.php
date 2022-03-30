@@ -12,8 +12,8 @@ use Throwable;
 class ApiException extends \Exception
 {
     #[Pure]
-    public function __construct(string $message = "", ErrorCode $code = ErrorCode::ERROR, ?Throwable $previous = null)
+    public function __construct(string $message = "", int $code = ErrorCode::ERROR, ?Throwable $previous = null)
     {
-        parent::__construct($message, $code->value, $previous);
+        parent::__construct($message, $code, $previous);
     }
 }

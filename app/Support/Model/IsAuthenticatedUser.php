@@ -17,7 +17,7 @@ trait IsAuthenticatedUser
      */
     public function isAuthenticatedUser(): bool
     {
-        return Auth::id() === $this->attributes['id'];
+        return Auth::id() === $this['id'];
     }
 
 }

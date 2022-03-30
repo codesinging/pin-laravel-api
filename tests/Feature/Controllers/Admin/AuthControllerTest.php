@@ -29,7 +29,7 @@ class AuthControllerTest extends TestCase
     {
         $this->postJson('api/admin/auth/login', ['username' => 'not_exists', 'password' => '111111'])
             ->assertOk()
-            ->assertJsonPath('code', ErrorCode::AUTH_USER_NOT_EXISTED->value);
+            ->assertJsonPath('code', ErrorCode::AUTH_USER_NOT_EXISTED);
     }
 
     public function testLoginPasswordNotMatched()
@@ -37,7 +37,7 @@ class AuthControllerTest extends TestCase
         $this->seedAdmin();
         $this->postJson('api/admin/auth/login', ['username' => 'admin', 'password' => '111111'])
             ->assertOk()
-            ->assertJsonPath('code', ErrorCode::AUTH_PASSWORD_NOT_MATCHED->value);
+            ->assertJsonPath('code', ErrorCode::AUTH_PASSWORD_NOT_MATCHED);
     }
 
     public function testLoginUserStatusError()
@@ -51,7 +51,7 @@ class AuthControllerTest extends TestCase
 
         $this->postJson('api/admin/auth/login', ['username' => $admin['username'], 'password' => 'admin.123'])
             ->assertOk()
-            ->assertJsonPath('code', ErrorCode::AUTH_USER_STATUS_ERROR->value);
+            ->assertJsonPath('code', ErrorCode::AUTH_USER_STATUS_ERROR);
     }
 
     public function testLogin()
