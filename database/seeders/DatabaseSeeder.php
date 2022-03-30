@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             AdminMenuSeeder::class,
             AdminRouteSeeder::class,
             AdminRoleSeeder::class,
+
+            PersonalAccessTokenSeeder::class,
         ]);
     }
 }
