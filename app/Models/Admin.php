@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Support\Model\AuthModel;
-use App\Support\Model\GetPermissionsFrom;
+use App\Support\Model\PermissionTraits;
 use App\Support\Model\IsSuperContract;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Permission\Traits\HasRoles;
@@ -11,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 class Admin extends AuthModel implements IsSuperContract
 {
     use HasRoles;
-    use GetPermissionsFrom;
+    use PermissionTraits;
 
     protected string $guard_name = 'sanctum';
 
