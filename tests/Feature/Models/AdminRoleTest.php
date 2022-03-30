@@ -27,6 +27,6 @@ class AdminRoleTest extends TestCase
 
         $adminRole = AdminRole::new()->inRandomOrder()->first();
 
-        self::assertEquals(AdminAuthRole::createName($adminRole), $adminRole->authRole()['name']);
+        self::assertEquals(AdminAuthRole::createName($adminRole), $adminRole->role['name']);
     }
 }

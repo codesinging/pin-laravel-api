@@ -7,8 +7,11 @@ use App\Events\AdminRoleCreated;
 use App\Support\Model\AuthRoleContract;
 use App\Support\Model\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\Permission\Contracts\Role;
+use Spatie\Permission\Models\Role;
 
+/**
+ * @property Role $role
+ */
 class AdminRole extends BaseModel implements AuthRoleContract
 {
     protected $fillable = [
@@ -37,13 +40,5 @@ class AdminRole extends BaseModel implements AuthRoleContract
     public function role(): BelongsTo
     {
         return $this->belongsTo(AdminAuthRole::class, 'role_id');
-    }
-
-    /**
-     * @return Role|\Spatie\Permission\Models\Role
-     */
-    public function authRole(): Role|\Spatie\Permission\Models\Role
-    {
-        return AdminAuthRole::findFrom($this);
     }
 }
