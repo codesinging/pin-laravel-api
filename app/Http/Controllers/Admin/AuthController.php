@@ -8,6 +8,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\ErrorCode;
 use App\Models\Admin;
+use App\Models\AdminMenu;
 use App\Models\AdminPage;
 use App\Support\Routing\BaseController;
 use Illuminate\Http\JsonResponse;
@@ -93,12 +94,33 @@ class AuthController extends BaseController
         /** @var Admin $user */
         $user = $request->user();
 
-        if ($user->isSuper()){
+        if ($user->isSuper()) {
             $pages = AdminPage::new()->where('status', true)->get();
         } else {
             $pages = AdminPage::new()->where('status', true)->whereIn('permission_id', $user->getPermissionsFrom(AdminPage::class)->pluck('id'))->get();
         }
 
         return $this->success('获取页面列表成功', $pages);
+    }
+
+    /**
+     * 获取拥有权限的菜单列表
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function menus(Request $request): JsonResponse
+    {
+        /** @var Admin $user */
+        $user = $request->user();
+
+        if ($user->isSuper()) {
+            $menus = AdminMenu::new()->where('status', true)->get();
+        } else {
+            $menus = AdminMenu::new()->where('status', true)->whereIn('permission_id', $user->getPermissionsFrom(AdminMenu::class)->pluck('id'))->get();
+        }
+
+        return $this->success('获取菜单列表成功', $menus);
     }
 }

@@ -4,7 +4,9 @@ namespace Tests\Feature\Controllers\Admin;
 
 use App\Exceptions\ErrorCode;
 use App\Models\Admin;
+use App\Models\AdminMenu;
 use App\Models\AdminPage;
+use Database\Seeders\AdminMenuSeeder;
 use Database\Seeders\AdminPageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
@@ -102,14 +104,12 @@ class AuthControllerTest extends TestCase
 
         $adminPages = AdminPage::new()->where('status', true)->get();
 
-        $last = $adminPages->count()-1;
-
         $this->seedAdmin()
             ->actingAsAdmin(true)
             ->getJson('api/admin/auth/pages')
             ->assertJsonPath('code', 0)
             ->assertJsonPath("data.0.id", $adminPages->first()['id'])
-            ->assertJsonPath("data.{$last}.id", $adminPages->last()['id'])
+            ->assertJsonCount($adminPages->count(), 'data')
             ->assertOk();
     }
 
@@ -125,7 +125,7 @@ class AuthControllerTest extends TestCase
         $this->actingAsAdmin($admin)
             ->getJson('api/admin/auth/pages')
             ->assertJsonPath('code', 0)
-            ->assertJsonPath("data", [])
+            ->assertJsonCount(0, "data")
             ->assertOk();
 
         $admin->givePermissionTo($adminPages->first()['permission_id']);
@@ -135,6 +135,48 @@ class AuthControllerTest extends TestCase
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('code', 0)
             ->assertJsonPath("data.0.id", $adminPages->first()['id'])
+            ->assertJsonCount(1, 'data')
+            ->assertOk();
+    }
+
+    public function testMenusUsingSuperAdmin()
+    {
+        $this->seed(AdminMenuSeeder::class);
+
+        $adminMenus = AdminMenu::new()->where('status', true)->get();
+
+        $this->seedAdmin()
+            ->actingAsAdmin(true)
+            ->getJson('api/admin/auth/menus')
+            ->assertJsonPath('code', 0)
+            ->assertJsonPath("data.0.id", $adminMenus->first()['id'])
+            ->assertJsonCount($adminMenus->count(), 'data')
+            ->assertOk();
+    }
+
+    public function testMenusUsingCommonAdmin()
+    {
+        $this->seed(AdminMenuSeeder::class);
+        $this->seedAdmin();
+
+        $adminMenus = AdminMenu::new()->where('status', true)->get();
+
+        $admin = $this->getAdmin(false);
+
+        $this->actingAsAdmin($admin)
+            ->getJson('api/admin/auth/menus')
+            ->assertJsonPath('code', 0)
+            ->assertJsonCount(0, "data")
+            ->assertOk();
+
+        $admin->givePermissionTo($adminMenus->first()['permission_id']);
+
+        $this->actingAsAdmin($admin)
+            ->getJson('api/admin/auth/menus')
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('code', 0)
+            ->assertJsonPath("data.0.id", $adminMenus->first()['id'])
+            ->assertJsonCount(1, 'data')
             ->assertOk();
     }
 }
