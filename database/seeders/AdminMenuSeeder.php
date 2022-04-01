@@ -13,7 +13,7 @@ class AdminMenuSeeder extends Seeder
             ['name' => '菜单管理', 'path' => 'menus', 'icon' => 'bi-list', 'sort' => 1],
             ['name' => '管理员管理', 'path' => 'admins', 'icon' => 'bi-person', 'sort' => 2],
             ['name' => '角色管理', 'path' => 'roles', 'icon' => 'bi-people', 'sort' => 3],
-            ['name' => '权限管理', 'path' => 'auths', 'icon' => 'bi-shield', 'sort' => 4],
+            ['name' => '权限管理', 'path' => 'auths', 'icon' => 'bi-shield-check', 'sort' => 4],
         ]],
     ];
 
