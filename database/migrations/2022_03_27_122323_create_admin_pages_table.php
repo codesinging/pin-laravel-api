@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->unsignedInteger('permission_id')->nullable()->unique()->comment('关联权限ID');
             $table->string('name')->comment('页面名称');
             $table->string('path')->unique()->comment('页面路径');
-            $table->unsignedBigInteger('sort')->default(0)->comment('排列序号，降序');
+            $table->unsignedBigInteger('sort')->default(0)->comment('排列序号，降序排列');
             $table->boolean('status')->default(true)->comment('页面状态');
 
             $table->timestamps();

@@ -21,7 +21,7 @@ class AdminMenuController extends BaseController
      */
     public function index(AdminMenu $menu): JsonResponse
     {
-        $menus = $menu->orderBy('sort')->get()->toTree();
+        $menus = $menu->orderByDesc('sort')->get()->toTree();
         return $this->success('获取菜单列表成功', $menus);
     }
 

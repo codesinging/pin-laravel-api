@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->unsignedInteger('role_id')->nullable()->unique()->comment('关联权限角色ID');
             $table->string('name')->unique()->comment('角色名称');
             $table->string('description')->nullable()->comment('角色描述');
-            $table->unsignedBigInteger('sort')->default(0)->comment('排列序号，升序');
+            $table->unsignedBigInteger('sort')->default(0)->comment('排列序号，降序排列');
             $table->boolean('status')->default(true)->comment('角色状态');
 
             $table->timestamps();

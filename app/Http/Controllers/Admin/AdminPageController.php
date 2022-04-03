@@ -24,7 +24,7 @@ class AdminPageController extends BaseController
     public function index(AdminPage $adminPage): JsonResponse
     {
         $pages = $adminPage->lister(function (Builder $builder) {
-            $builder->orderBy('sort');
+            $builder->orderByDesc('sort');
         });
 
         return $this->success('获取页面列表成功', $pages);
