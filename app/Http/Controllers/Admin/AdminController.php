@@ -31,7 +31,7 @@ class AdminController extends BaseController
     {
         $lister = $admin->lister();
 
-        return $this->success($lister);
+        return $this->success('获取管理员列表成功', $lister);
     }
 
     /**
@@ -88,7 +88,7 @@ class AdminController extends BaseController
      */
     public function show(Admin $admin): JsonResponse
     {
-        return $this->success($admin);
+        return $this->success('获取管理员详情成功', $admin);
     }
 
     /**
