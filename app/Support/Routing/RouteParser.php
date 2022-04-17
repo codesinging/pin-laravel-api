@@ -59,7 +59,7 @@ class RouteParser
     private function parse()
     {
         list($this->class, $this->action) = explode('@', $this->route->getActionName());
-        $this->controller = str($this->class)->between('App\\Http\\Controllers\\', 'Controller')->replace('\\', '/');
+        $this->controller = str($this->class)->after('App\\Http\\Controllers\\')->replace('\\', '/');
     }
 
     /**
