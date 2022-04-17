@@ -12,16 +12,28 @@ use Illuminate\Http\JsonResponse;
 class AdminRouteController extends BaseController
 {
     /**
-     * @title 获取路由权限列表
+     * @title 获取路由列表
      *
-     * @param AdminRoute $authRoute
+     * @param AdminRoute $adminRoute
      *
      * @return JsonResponse
      */
-    public function index(AdminRoute $authRoute): JsonResponse
+    public function index(AdminRoute $adminRoute): JsonResponse
     {
-        $routes = $authRoute->lister();
+        $routes = $adminRoute->lister();
 
         return $this->success('获取路由权限列表成功', $routes);
+    }
+
+    /**
+     * @title 获取路由详情
+     *
+     * @param AdminRoute $adminRoute
+     *
+     * @return JsonResponse
+     */
+    public function show(AdminRoute $adminRoute): JsonResponse
+    {
+        return $this->success('获取路由详情成功', $adminRoute);
     }
 }

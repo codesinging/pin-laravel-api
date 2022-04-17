@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('auth/login', [Admin\AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum', 'permission'])
-    ->group(function (){
+    ->group(function () {
 
         Route::post('auth/logout', [Admin\AuthController::class, 'logout']);
         Route::get('auth/user', [Admin\AuthController::class, 'user']);
@@ -39,6 +39,6 @@ Route::middleware(['auth:sanctum', 'permission'])
 
         Route::apiResource('admin_roles', Admin\AdminRoleController::class);
 
-        Route::get('auth_routes', [Admin\AdminRouteController::class, 'index']);
+        Route::apiResource('admin_routes', Admin\AdminRouteController::class)->only('index', 'show');
 
     });
