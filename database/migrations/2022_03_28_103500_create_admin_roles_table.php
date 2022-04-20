@@ -12,16 +12,14 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('admin_roles', function (Blueprint $table) {
-            $table->id();
+        Schema::table(config('permission.table_names.roles'), function (Blueprint $table) {
 
-            $table->unsignedInteger('role_id')->nullable()->unique()->comment('关联权限角色ID');
-            $table->string('name')->unique()->comment('角色名称');
-            $table->string('description')->nullable()->comment('角色描述');
-            $table->unsignedBigInteger('sort')->default(0)->comment('排列序号，降序排列');
-            $table->boolean('status')->default(true)->comment('角色状态');
+            $table->after('guard_name', function () use ($table){
+                $table->string('description')->nullable()->comment('角色描述');
+                $table->unsignedBigInteger('sort')->default(0)->comment('排列序号，降序排列');
+                $table->boolean('status')->default(true)->comment('角色状态');
+            });
 
-            $table->timestamps();
         });
     }
 
@@ -32,6 +30,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('admin_roles');
+        Schema::dropIfExists(config('permission.table_names.roles'));
     }
 };

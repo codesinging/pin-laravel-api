@@ -40,7 +40,7 @@ class AdminRoleController extends BaseController
     public function store(AdminRoleRequest $request, AdminRole $adminRole): JsonResponse
     {
         $request->validate([
-            'name' => 'unique:admin_roles',
+            'name' => 'unique:'.$adminRole->getTable(),
         ], [], $request->attributes());
 
         return $adminRole->sanitizeFill($request)->save()
@@ -59,7 +59,7 @@ class AdminRoleController extends BaseController
     public function update(AdminRoleRequest $request, AdminRole $adminRole): JsonResponse
     {
         $request->validate([
-            'name' => Rule::unique('admin_roles')->ignore($adminRole),
+            'name' => Rule::unique($adminRole->getTable())->ignore($adminRole),
         ], [], $request->attributes());
 
         return $adminRole->sanitizeFill($request)->save()
@@ -102,7 +102,7 @@ class AdminRoleController extends BaseController
      */
     public function permissions(AdminRole $role): JsonResponse
     {
-        $permissions = $role->role->getAllPermissions();
+        $permissions = $role->getAllPermissions();
 
         return $this->success('获取权限成功', $permissions);
     }
@@ -117,7 +117,7 @@ class AdminRoleController extends BaseController
      */
     public function givePermissions(AdminRole $role, Request $request): JsonResponse
     {
-        $role->role->givePermissionTo(Arr::wrap($request->get('permissions', [])));
+        $role->givePermissionTo(Arr::wrap($request->get('permissions', [])));
 
         return $this->success('分配权限成功');
     }
@@ -132,7 +132,7 @@ class AdminRoleController extends BaseController
      */
     public function removePermissions(AdminRole $role, Request $request): JsonResponse
     {
-        $role->role->revokePermissionTo(Arr::wrap($request->get('permissions', [])));
+        $role->revokePermissionTo(Arr::wrap($request->get('permissions', [])));
 
         return $this->success('移除权限成功');
     }
@@ -147,7 +147,7 @@ class AdminRoleController extends BaseController
      */
     public function syncPermissions(AdminRole $role, Request $request): JsonResponse
     {
-        $role->role->syncPermissions(Arr::wrap($request->get('permissions', [])));
+        $role->syncPermissions(Arr::wrap($request->get('permissions', [])));
 
         return $this->success('同步权限成功');
     }

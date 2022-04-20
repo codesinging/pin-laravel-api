@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminRoute;
 
 class AdminRouteDeleted
@@ -14,6 +14,6 @@ class AdminRouteDeleted
      */
     public function __construct(AdminRoute $adminRoute)
     {
-        AdminAuthPermission::deleteFrom($adminRoute);
+        AdminPermission::deleteFrom($adminRoute);
     }
 }

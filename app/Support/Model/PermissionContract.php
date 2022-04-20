@@ -8,7 +8,7 @@ namespace App\Support\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-interface AuthPermissionContract
+interface PermissionContract
 {
     /**
      * @return BelongsTo

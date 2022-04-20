@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Events;
 
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminPage;
 use Database\Seeders\AdminPageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,10 +18,10 @@ class AdminPageDeletedTest extends TestCase
 
         $adminPage = AdminPage::new()->inRandomOrder()->first();
 
-        $this->assertDatabaseHas(AdminAuthPermission::class, ['name' => AdminAuthPermission::createName($adminPage)]);
+        $this->assertDatabaseHas(AdminPermission::class, ['name' => AdminPermission::createName($adminPage)]);
 
         $adminPage->delete();
 
-        $this->assertDatabaseMissing(AdminAuthPermission::class, ['name' => AdminAuthPermission::createName($adminPage)]);
+        $this->assertDatabaseMissing(AdminPermission::class, ['name' => AdminPermission::createName($adminPage)]);
     }
 }

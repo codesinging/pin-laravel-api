@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminRoute;
 
 class AdminRouteCreated
@@ -14,6 +14,6 @@ class AdminRouteCreated
      */
     public function __construct(AdminRoute $adminRoute)
     {
-        AdminAuthPermission::createFrom($adminRoute);
+        AdminPermission::createFrom($adminRoute);
     }
 }

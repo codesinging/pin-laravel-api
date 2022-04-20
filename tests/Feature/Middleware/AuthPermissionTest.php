@@ -3,7 +3,7 @@
 namespace Tests\Feature\Middleware;
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminRoute;
 use Database\Seeders\AdminRouteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -62,7 +62,7 @@ class AuthPermissionTest extends TestCase
 
         $admin = $this->getAdmin(false);
 
-        $admin->givePermissionTo(AdminAuthPermission::findFrom($adminRoute));
+        $admin->givePermissionTo(AdminPermission::findFrom($adminRoute));
 
         $this->actingAsAdmin($admin)
             ->getJson('api/admin/admins')

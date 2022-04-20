@@ -4,12 +4,12 @@ namespace App\Models;
 
 use App\Events\AdminMenuDeleted;
 use App\Events\AdminMenuCreated;
-use App\Support\Model\AuthPermissionContract;
+use App\Support\Model\PermissionContract;
 use App\Support\Model\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Kalnoy\Nestedset\NodeTrait;
 
-class AdminMenu extends BaseModel implements AuthPermissionContract
+class AdminMenu extends BaseModel implements PermissionContract
 {
     use NodeTrait;
 
@@ -41,6 +41,6 @@ class AdminMenu extends BaseModel implements AuthPermissionContract
 
     public function permission(): BelongsTo
     {
-        return $this->belongsTo(AdminAuthPermission::class, 'permission_id');
+        return $this->belongsTo(AdminPermission::class, 'permission_id');
     }
 }

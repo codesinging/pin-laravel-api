@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Events;
 
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminPage;
 use Database\Seeders\AdminPageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,6 +18,6 @@ class AdminPageCreatedTest extends TestCase
 
         $adminPage = AdminPage::new()->inRandomOrder()->first();
 
-        $this->assertDatabaseHas(AdminAuthPermission::class, ['name' => AdminAuthPermission::createName($adminPage)]);
+        $this->assertDatabaseHas(AdminPermission::class, ['name' => AdminPermission::createName($adminPage)]);
     }
 }

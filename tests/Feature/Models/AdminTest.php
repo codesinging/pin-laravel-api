@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Models;
 
-use App\Models\AdminAuthPermission;
-use App\Models\AdminAuthRole;
+use App\Models\AdminPermission;
+use App\Models\AdminRole;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -67,7 +67,7 @@ class AdminTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
         $admin->givePermissionTo(['permission1']);
@@ -94,7 +94,7 @@ class AdminTest extends TestCase
         ];
 
         foreach ($roles as $role) {
-            AdminAuthRole::create($role);
+            AdminRole::create($role);
         }
 
         $admin->assignRole('role1');
@@ -120,7 +120,7 @@ class AdminTest extends TestCase
         ];
 
         foreach ($roles as $role) {
-            AdminAuthRole::create($role);
+            AdminRole::create($role);
         }
 
         $permissions = [
@@ -131,14 +131,14 @@ class AdminTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
         $admin->assignRole('role1');
         $admin->assignRole(['role3']);
 
-        $role1 = AdminAuthRole::findByName('role1');
-        $role3 = AdminAuthRole::findByName('role3');
+        $role1 = AdminRole::findByName('role1');
+        $role3 = AdminRole::findByName('role3');
 
         $role1->givePermissionTo('permission1');
         $role3->givePermissionTo(['permission3', 'permission4']);
@@ -171,7 +171,7 @@ class AdminTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
         self::assertFalse($commonAdmin->can(['permission1', 'permission2', 'permission3', 'permission4']));

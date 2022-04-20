@@ -10,6 +10,7 @@ use App\Exceptions\ErrorCode;
 use App\Http\Requests\Admin\AdminRequest;
 use App\Models\Admin;
 use App\Support\Routing\BaseController;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -29,7 +30,7 @@ class AdminController extends BaseController
      */
     public function index(Admin $admin): JsonResponse
     {
-        $lister = $admin->lister();
+        $lister = $admin->lister(fn(Builder $builder) => $builder->with('roles'));
 
         return $this->success('获取管理员列表成功', $lister);
     }

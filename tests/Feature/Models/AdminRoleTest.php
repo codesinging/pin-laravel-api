@@ -18,15 +18,8 @@ class AdminRoleTest extends TestCase
 
         $adminRole = AdminRole::new()->first();
 
-        self::assertEquals($adminRole['role_id'], $adminRole['role']['id']);
-    }
+        self::assertEquals('sanctum', $adminRole['guard_name']);
 
-    public function testAuthRole()
-    {
-        $this->seed(AdminRoleSeeder::class);
-
-        $adminRole = AdminRole::new()->inRandomOrder()->first();
-
-        self::assertEquals(AdminAuthRole::createName($adminRole), $adminRole->role['name']);
+        self::assertModelExists($adminRole);
     }
 }

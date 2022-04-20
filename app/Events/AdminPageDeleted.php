@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminPage;
 
 class AdminPageDeleted
@@ -14,6 +14,6 @@ class AdminPageDeleted
      */
     public function __construct(AdminPage $adminPage)
     {
-        AdminAuthPermission::deleteFrom($adminPage);
+        AdminPermission::deleteFrom($adminPage);
     }
 }

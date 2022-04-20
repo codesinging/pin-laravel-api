@@ -4,7 +4,7 @@ namespace Tests\Feature\Models;
 
 use App\Models\AdminMenu;
 use App\Models\AdminPage;
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminRoute;
 use Database\Seeders\AdminMenuSeeder;
 use Database\Seeders\AdminPageSeeder;
@@ -12,15 +12,15 @@ use Database\Seeders\AdminRouteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class AdminAuthPermissionTest extends TestCase
+class AdminPermissionTest extends TestCase
 {
     use RefreshDatabase;
 
     public function testDefaultGuard()
     {
-        AdminAuthPermission::create(['name' => 'test']);
+        AdminPermission::create(['name' => 'test']);
 
-        self::assertEquals('sanctum', AdminAuthPermission::findByName('test')['guard_name']);
+        self::assertEquals('sanctum', AdminPermission::findByName('test')['guard_name']);
     }
 
     public function testCreateName()
@@ -33,9 +33,9 @@ class AdminAuthPermissionTest extends TestCase
         $adminPage = AdminPage::new()->first();
         $adminMenu = AdminMenu::new()->first();
 
-        self::assertEquals($adminRoute::class . ':'. $adminRoute['id'], AdminAuthPermission::createName($adminRoute));
-        self::assertEquals($adminPage::class . ':'. $adminPage['id'], AdminAuthPermission::createName($adminPage));
-        self::assertEquals($adminMenu::class . ':'. $adminMenu['id'], AdminAuthPermission::createName($adminMenu));
+        self::assertEquals($adminRoute::class . ':'. $adminRoute['id'], AdminPermission::createName($adminRoute));
+        self::assertEquals($adminPage::class . ':'. $adminPage['id'], AdminPermission::createName($adminPage));
+        self::assertEquals($adminMenu::class . ':'. $adminMenu['id'], AdminPermission::createName($adminMenu));
     }
 
     public function testCreateFrom()
@@ -48,13 +48,13 @@ class AdminAuthPermissionTest extends TestCase
         $adminPage = AdminPage::new()->first();
         $adminMenu = AdminMenu::new()->first();
 
-        AdminAuthPermission::deleteFrom($adminRoute);
-        AdminAuthPermission::deleteFrom($adminPage);
-        AdminAuthPermission::deleteFrom($adminMenu);
+        AdminPermission::deleteFrom($adminRoute);
+        AdminPermission::deleteFrom($adminPage);
+        AdminPermission::deleteFrom($adminMenu);
 
-        $adminRoutePermission = AdminAuthPermission::createFrom($adminRoute);
-        $adminPagePermission = AdminAuthPermission::createFrom($adminPage);
-        $adminMenuPermission = AdminAuthPermission::createFrom($adminMenu);
+        $adminRoutePermission = AdminPermission::createFrom($adminRoute);
+        $adminPagePermission = AdminPermission::createFrom($adminPage);
+        $adminMenuPermission = AdminPermission::createFrom($adminMenu);
 
         $adminRoute->refresh();
         $adminPage->refresh();
@@ -79,9 +79,9 @@ class AdminAuthPermissionTest extends TestCase
 
         $adminRoute = AdminRoute::new()->first();
 
-        $permission = AdminAuthPermission::findFrom($adminRoute);
+        $permission = AdminPermission::findFrom($adminRoute);
 
-        self::assertEquals(AdminAuthPermission::createName($adminRoute), $permission['name']);
+        self::assertEquals(AdminPermission::createName($adminRoute), $permission['name']);
     }
 
     public function testDeleteFrom()
@@ -90,8 +90,8 @@ class AdminAuthPermissionTest extends TestCase
 
         $adminRoute = AdminRoute::new()->first();
 
-        AdminAuthPermission::deleteFrom($adminRoute);
+        AdminPermission::deleteFrom($adminRoute);
 
-        $this->assertDatabaseMissing(AdminAuthPermission::class, ['name' => AdminAuthPermission::createName($adminRoute)]);
+        $this->assertDatabaseMissing(AdminPermission::class, ['name' => AdminPermission::createName($adminRoute)]);
     }
 }

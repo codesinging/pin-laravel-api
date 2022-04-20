@@ -4,8 +4,10 @@ namespace Tests\Feature\Controllers\Admin;
 
 use App\Exceptions\ErrorCode;
 use App\Models\Admin;
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminAuthRole;
+use App\Models\AdminRole;
+use Database\Seeders\AdminRoleSeeder;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -20,10 +22,18 @@ class AdminControllerTest extends TestCase
     public function testIndex()
     {
         $this->seedAdmin();
+        $this->seed(AdminRoleSeeder::class);
 
-        $this->actingAsAdmin()
+        $role = AdminRole::new()->first();
+
+        $admin = $this->getAdmin();
+
+        $admin->assignRole($role);
+
+        $this->actingAsAdmin($admin)
             ->getJson('api/admin/admins')
             ->assertJsonPath('data.data.0.id', 1)
+            ->assertJsonPath('data.data.0.roles.0.id', $role['id'])
             ->assertJsonPath('code', 0)
             ->assertOk();
     }
@@ -210,7 +220,7 @@ class AdminControllerTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
         $admin = $this->seedAdmin()->getAdmin(false);
@@ -238,7 +248,7 @@ class AdminControllerTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
         $admin = $this->seedAdmin()->getAdmin(false);
@@ -272,7 +282,7 @@ class AdminControllerTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
         $admin = $this->seedAdmin()->getAdmin(false);
@@ -310,7 +320,7 @@ class AdminControllerTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
         $admin = $this->seedAdmin()->getAdmin(false);
@@ -341,7 +351,7 @@ class AdminControllerTest extends TestCase
         ];
 
         foreach ($roles as $role) {
-            AdminAuthRole::create($role);
+            AdminRole::new()->create($role);
         }
 
         $admin = $this->seedAdmin()->getAdmin(false);
@@ -366,7 +376,7 @@ class AdminControllerTest extends TestCase
         ];
 
         foreach ($roles as $role) {
-            AdminAuthRole::create($role);
+            AdminRole::new()->create($role);
         }
 
         $admin = $this->seedAdmin()->getAdmin(false);
@@ -398,7 +408,7 @@ class AdminControllerTest extends TestCase
         ];
 
         foreach ($roles as $role) {
-            AdminAuthRole::create($role);
+            AdminRole::new()->create($role);
         }
 
         $admin = $this->seedAdmin()->getAdmin(false);
@@ -432,7 +442,7 @@ class AdminControllerTest extends TestCase
         ];
 
         foreach ($roles as $role) {
-            AdminAuthRole::create($role);
+            AdminRole::new()->create($role);
         }
 
         $admin = $this->seedAdmin()->getAdmin(false);

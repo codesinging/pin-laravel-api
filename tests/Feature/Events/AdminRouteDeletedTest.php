@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Events;
 
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminRoute;
 use Database\Seeders\AdminRouteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,10 +19,10 @@ class AdminRouteDeletedTest extends TestCase
 
         $adminRoute = AdminRoute::new()->inRandomOrder()->first();
 
-        $this->assertDatabaseHas(AdminAuthPermission::class, ['name' => AdminAuthPermission::createName($adminRoute)]);
+        $this->assertDatabaseHas(AdminPermission::class, ['name' => AdminPermission::createName($adminRoute)]);
 
         $adminRoute->delete();
 
-        $this->assertDatabaseMissing(AdminAuthPermission::class, ['name' => AdminAuthPermission::createName($adminRoute)]);
+        $this->assertDatabaseMissing(AdminPermission::class, ['name' => AdminPermission::createName($adminRoute)]);
     }
 }

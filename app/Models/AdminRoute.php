@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Events\AdminRouteDeleted;
 use App\Events\AdminRouteCreated;
-use App\Support\Model\AuthPermissionContract;
+use App\Support\Model\PermissionContract;
 use App\Support\Model\BaseModel;
 use App\Support\Reflection\ClassReflection;
 use App\Support\Routing\RouteParser;
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Routing\Route;
 use ReflectionException;
 
-class AdminRoute extends BaseModel implements AuthPermissionContract
+class AdminRoute extends BaseModel implements PermissionContract
 {
     protected $fillable = [
         'controller',
@@ -33,7 +33,7 @@ class AdminRoute extends BaseModel implements AuthPermissionContract
 
     public function permission(): BelongsTo
     {
-        return $this->belongsTo(AdminAuthPermission::class, 'permission_id');
+        return $this->belongsTo(AdminPermission::class, 'permission_id');
     }
 
     /**

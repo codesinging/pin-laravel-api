@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Database\Seeders;
 
+use App\Models\AdminRole;
 use Database\Seeders\AdminRoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AdminRoleSeederTest extends TestCase
@@ -15,6 +15,6 @@ class AdminRoleSeederTest extends TestCase
     {
         $this->seed(AdminRoleSeeder::class);
 
-        $this->assertDatabaseHas('admin_roles', ['name' => '系统管理员']);
+        $this->assertDatabaseHas(AdminRole::class, ['name' => '系统管理员']);
     }
 }

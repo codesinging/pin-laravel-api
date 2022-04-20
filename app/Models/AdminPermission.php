@@ -6,12 +6,12 @@
 
 namespace App\Models;
 
-use App\Support\Model\AuthPermissionContract;
+use App\Support\Model\PermissionContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
 
-class AdminAuthPermission extends Permission
+class AdminPermission extends Permission
 {
     protected string $guard_name = 'sanctum';
 
@@ -30,11 +30,11 @@ class AdminAuthPermission extends Permission
     /**
      * 根据指定的模型创建对应的权限
      *
-     * @param Model|AuthPermissionContract $model
+     * @param Model|PermissionContract $model
      *
      * @return Builder|Model
      */
-    public static function createFrom(Model|AuthPermissionContract $model): Model|Builder
+    public static function createFrom(Model|PermissionContract $model): Model|Builder
     {
         $permission = self::create([
             'name' => self::createName($model),

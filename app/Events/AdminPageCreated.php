@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminPage;
 
 class AdminPageCreated
@@ -14,6 +14,6 @@ class AdminPageCreated
      */
     public function __construct(AdminPage $adminPage)
     {
-        AdminAuthPermission::createFrom($adminPage);
+        AdminPermission::createFrom($adminPage);
     }
 }

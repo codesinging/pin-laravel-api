@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Controllers\Admin;
 
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminRole;
 use Database\Seeders\AdminRoleSeeder;
 use Exception;
@@ -89,9 +89,7 @@ class AdminRoleControllerTest extends TestCase
             ->assertJsonPath('code', 0)
             ->assertJsonPath('data.name', 'Name');
 
-        $this->assertDatabaseMissing('admin_roles', [
-            'id' => $role['id'],
-        ]);
+        $this->assertModelMissing($role);
     }
 
     /**
@@ -109,11 +107,11 @@ class AdminRoleControllerTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
-        $role->role->givePermissionTo(['permission1', 'permission3']);
-        self::assertTrue($role->role->hasAllPermissions(['permission1', 'permission3']));
+        $role->givePermissionTo(['permission1', 'permission3']);
+        self::assertTrue($role->hasAllPermissions(['permission1', 'permission3']));
 
         $this->seedAdmin();
 
@@ -140,7 +138,7 @@ class AdminRoleControllerTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
         $this->seedAdmin();
@@ -157,7 +155,7 @@ class AdminRoleControllerTest extends TestCase
 
         $role->refresh();
 
-        self::assertTrue($role->role->hasAllPermissions('permission1', 'permission2', 'permission3'));
+        self::assertTrue($role->hasAllPermissions('permission1', 'permission2', 'permission3'));
     }
 
     /**
@@ -175,12 +173,12 @@ class AdminRoleControllerTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
-        $role->role->givePermissionTo(['permission1', 'permission3', 'permission4']);
+        $role->givePermissionTo(['permission1', 'permission3', 'permission4']);
 
-        self::assertTrue($role->role->hasAllPermissions(['permission1', 'permission3', 'permission4']));
+        self::assertTrue($role->hasAllPermissions(['permission1', 'permission3', 'permission4']));
 
         $this->seedAdmin();
 
@@ -196,8 +194,8 @@ class AdminRoleControllerTest extends TestCase
 
         $role->refresh();
 
-        self::assertTrue($role->role->hasAllPermissions('permission4'));
-        self::assertFalse($role->role->hasAnyPermission('permission1', 'permission2', 'permission3'));
+        self::assertTrue($role->hasAllPermissions('permission4'));
+        self::assertFalse($role->hasAnyPermission('permission1', 'permission2', 'permission3'));
     }
 
     /**
@@ -215,12 +213,12 @@ class AdminRoleControllerTest extends TestCase
         ];
 
         foreach ($permissions as $permission) {
-            AdminAuthPermission::create($permission);
+            AdminPermission::create($permission);
         }
 
-        $role->role->givePermissionTo(['permission1', 'permission3', 'permission4']);
+        $role->givePermissionTo(['permission1', 'permission3', 'permission4']);
 
-        self::assertTrue($role->role->hasAllPermissions(['permission1', 'permission3', 'permission4']));
+        self::assertTrue($role->hasAllPermissions(['permission1', 'permission3', 'permission4']));
 
         $this->seedAdmin();
 
@@ -231,8 +229,8 @@ class AdminRoleControllerTest extends TestCase
 
         $role->refresh();
 
-        self::assertTrue($role->role->hasAllPermissions(['permission1']));
-        self::assertFalse($role->role->hasAnyPermission(['permission2', 'permission3', 'permission4']));
+        self::assertTrue($role->hasAllPermissions(['permission1']));
+        self::assertFalse($role->hasAnyPermission(['permission2', 'permission3', 'permission4']));
 
         $this->actingAsAdmin(false)
             ->postJson('api/admin/admin_roles/sync_permissions/' . $role['id'], ['permissions' => ['permission2', 'permission3']])
@@ -241,7 +239,7 @@ class AdminRoleControllerTest extends TestCase
 
         $role->refresh();
 
-        self::assertTrue($role->role->hasAllPermissions('permission2', 'permission3'));
-        self::assertFalse($role->role->hasAnyPermission('permission1', 'permission4'));
+        self::assertTrue($role->hasAllPermissions('permission2', 'permission3'));
+        self::assertFalse($role->hasAnyPermission('permission1', 'permission4'));
     }
 }

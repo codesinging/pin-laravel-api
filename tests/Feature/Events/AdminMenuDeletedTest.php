@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Events;
 
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminMenu;
 use Database\Seeders\AdminMenuSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,10 +18,10 @@ class AdminMenuDeletedTest extends TestCase
 
         $adminMenu = AdminMenu::new()->inRandomOrder()->first();
 
-        $this->assertDatabaseHas(AdminAuthPermission::class, ['name' => AdminAuthPermission::createName($adminMenu)]);
+        $this->assertDatabaseHas(AdminPermission::class, ['name' => AdminPermission::createName($adminMenu)]);
 
         $adminMenu->delete();
 
-        $this->assertDatabaseMissing(AdminAuthPermission::class, ['name' => AdminAuthPermission::createName($adminMenu)]);
+        $this->assertDatabaseMissing(AdminPermission::class, ['name' => AdminPermission::createName($adminMenu)]);
     }
 }

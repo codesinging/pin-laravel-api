@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\AdminAuthPermission;
+use App\Models\AdminPermission;
 use App\Models\AdminMenu;
 
 class AdminMenuDeleted
@@ -14,6 +14,6 @@ class AdminMenuDeleted
      */
     public function __construct(AdminMenu $adminMenu)
     {
-        AdminAuthPermission::deleteFrom($adminMenu);
+        AdminPermission::deleteFrom($adminMenu);
     }
 }
