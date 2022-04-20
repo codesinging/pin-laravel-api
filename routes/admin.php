@@ -32,6 +32,7 @@ Route::middleware(['auth:sanctum', 'permission'])
 
         Route::apiResource('admin_menus', Admin\AdminMenuController::class);
 
+        Route::get('admin_roles/all', [Admin\AdminRoleController::class, 'all']);
         Route::get('admin_roles/permissions/{role}', [Admin\AdminRoleController::class, 'permissions']);
         Route::post('admin_roles/give_permissions/{role}', [Admin\AdminRoleController::class, 'givePermissions']);
         Route::post('admin_roles/remove_permissions/{role}', [Admin\AdminRoleController::class, 'removePermissions']);
