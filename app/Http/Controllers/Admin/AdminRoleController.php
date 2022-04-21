@@ -23,7 +23,7 @@ class AdminRoleController extends BaseController
     public function index(AdminRole $adminRole): JsonResponse
     {
         $roles = $adminRole->lister(function (Builder $builder) {
-            $builder->orderByDesc('sort');
+            $builder->with('permissions')->orderByDesc('sort');
         });
 
         return $this->success('获取角色列表成功', $roles);
