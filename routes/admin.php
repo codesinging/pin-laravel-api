@@ -17,14 +17,14 @@ Route::middleware(['auth:sanctum', 'permission'])
         Route::get('auth/pages', [Admin\AuthController::class, 'pages']);
         Route::get('auth/menus', [Admin\AuthController::class, 'menus']);
 
-        Route::get('admins/permissions/{admin}', [Admin\AdminController::class, 'permissions']);
-        Route::post('admins/give_permissions/{admin}', [Admin\AdminController::class, 'givePermissions']);
-        Route::post('admins/remove_permissions/{admin}', [Admin\AdminController::class, 'removePermissions']);
-        Route::post('admins/sync_permissions/{admin}', [Admin\AdminController::class, 'syncPermissions']);
-        Route::get('admins/roles/{admin}', [Admin\AdminController::class, 'roles']);
-        Route::post('admins/assign_roles/{admin}', [Admin\AdminController::class, 'assignRoles']);
-        Route::post('admins/remove_roles/{admin}', [Admin\AdminController::class, 'removeRoles']);
-        Route::post('admins/sync_roles/{admin}', [Admin\AdminController::class, 'syncRoles']);
+        Route::get('admins/{admin}/permissions', [Admin\AdminController::class, 'permissions']);
+        Route::post('admins/{admin}/give_permissions', [Admin\AdminController::class, 'givePermissions']);
+        Route::post('admins/{admin}/remove_permissions', [Admin\AdminController::class, 'removePermissions']);
+        Route::post('admins/{admin}/sync_permissions', [Admin\AdminController::class, 'syncPermissions']);
+        Route::get('admins/{admin}/roles', [Admin\AdminController::class, 'roles']);
+        Route::post('admins/{admin}/assign_roles', [Admin\AdminController::class, 'assignRoles']);
+        Route::post('admins/{admin}/remove_roles', [Admin\AdminController::class, 'removeRoles']);
+        Route::post('admins/{admin}/sync_roles', [Admin\AdminController::class, 'syncRoles']);
 
         Route::apiResource('admins', Admin\AdminController::class);
 
@@ -33,10 +33,10 @@ Route::middleware(['auth:sanctum', 'permission'])
         Route::apiResource('admin_menus', Admin\AdminMenuController::class);
 
         Route::get('admin_roles/all', [Admin\AdminRoleController::class, 'all']);
-        Route::get('admin_roles/permissions/{role}', [Admin\AdminRoleController::class, 'permissions']);
-        Route::post('admin_roles/give_permissions/{role}', [Admin\AdminRoleController::class, 'givePermissions']);
-        Route::post('admin_roles/remove_permissions/{role}', [Admin\AdminRoleController::class, 'removePermissions']);
-        Route::post('admin_roles/sync_permissions/{role}', [Admin\AdminRoleController::class, 'syncPermissions']);
+        Route::get('admin_roles/{role}/permissions', [Admin\AdminRoleController::class, 'permissions']);
+        Route::post('admin_roles/{role}/give_permissions', [Admin\AdminRoleController::class, 'givePermissions']);
+        Route::post('admin_roles/{role}/remove_permissions', [Admin\AdminRoleController::class, 'removePermissions']);
+        Route::post('admin_roles/{role}/sync_permissions', [Admin\AdminRoleController::class, 'syncPermissions']);
 
         Route::apiResource('admin_roles', Admin\AdminRoleController::class);
 
