@@ -30,18 +30,6 @@ class AdminRoleController extends BaseController
     }
 
     /**
-     * @param AdminRole $adminRole
-     *
-     * @return JsonResponse
-     */
-    public function all(AdminRole $adminRole): JsonResponse
-    {
-        $roles = $adminRole->orderByDesc('sort')->where('status', true)->get();
-
-        return $this->success('获取角色成功', $roles);
-    }
-
-    /**
      * @title 新增后台角色
      *
      * @param AdminRoleRequest $request

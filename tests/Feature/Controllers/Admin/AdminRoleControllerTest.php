@@ -26,23 +26,6 @@ class AdminRoleControllerTest extends TestCase
             ->assertOk();
     }
 
-    public function testAll()
-    {
-        $this->seed(AdminRoleSeeder::class);
-
-        $adminRole = AdminRole::new()->first();
-        $adminRole->fill(['status' => false])->save();
-
-        $count = AdminRole::new()->count();
-
-        $this->seedAdmin()
-            ->actingAsAdmin()
-            ->getJson('api/admin/admin_roles/all')
-            ->assertJsonCount($count - 1, 'data')
-            ->assertJsonPath('code', 0)
-            ->assertOk();
-    }
-
     public function testStore()
     {
         $this->seedAdmin()
