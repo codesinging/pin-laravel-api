@@ -6,7 +6,6 @@ use App\Models\Admin;
 use Database\Seeders\AdminSeeder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class QueryListerTest extends TestCase
@@ -36,13 +35,13 @@ class QueryListerTest extends TestCase
     public function test_lister_without_page()
     {
         $this->seed(AdminSeeder::class);
+
+        $count = Admin::new()->count();
+
         $lister = Admin::new()->lister();
 
-        self::assertArrayHasKey('page', $lister);
-        self::assertArrayHasKey('data', $lister);
-        self::assertArrayHasKey('total', $lister);
-
-        self::assertEquals(0, $lister['page']);
+        self::assertIsArray($lister);
+        self::assertCount($count, $lister);
     }
 
     public function test_lister_with_closure()
@@ -53,7 +52,7 @@ class QueryListerTest extends TestCase
             $builder->where('super', true);
         });
 
-        foreach ($lister['data'] as $admin) {
+        foreach ($lister as $admin) {
             self::assertTrue($admin['super']);
         }
     }

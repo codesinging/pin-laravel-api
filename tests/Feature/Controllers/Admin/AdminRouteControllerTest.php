@@ -22,7 +22,7 @@ class AdminRouteControllerTest extends TestCase
             ->getJson('api/admin/admin_routes')
             ->assertOk()
             ->assertJsonPath('code', 0)
-            ->assertJsonPath('data.data.0.id', 1);
+            ->assertJsonPath('data.0.id', 1);
     }
 
     public function testShow()

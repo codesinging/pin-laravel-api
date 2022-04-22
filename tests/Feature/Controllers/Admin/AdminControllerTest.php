@@ -32,8 +32,8 @@ class AdminControllerTest extends TestCase
 
         $this->actingAsAdmin($admin)
             ->getJson('api/admin/admins')
-            ->assertJsonPath('data.data.0.id', 1)
-            ->assertJsonPath('data.data.0.roles.0.id', $role['id'])
+            ->assertJsonPath('data.0.id', 1)
+            ->assertJsonPath('data.0.roles.0.id', $role['id'])
             ->assertJsonPath('code', 0)
             ->assertOk();
     }

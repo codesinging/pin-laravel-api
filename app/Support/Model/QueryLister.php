@@ -8,7 +8,6 @@ namespace App\Support\Model;
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 
 trait QueryLister
 {
@@ -17,9 +16,9 @@ trait QueryLister
      *
      * @param Closure|Builder|null $builder
      *
-     * @return Collection|array
+     * @return array
      */
-    public function lister(Closure|Builder $builder = null): Collection|array
+    public function lister(Closure|Builder $builder = null): array
     {
         if ($builder instanceof Closure) {
             $query = $this->newQuery();
@@ -45,12 +44,7 @@ trait QueryLister
                 'more' => $pagination->hasMorePages(),
             ];
         } else {
-            $data = $builder->get()->toArray();
-            $result = [
-                'page' => $page,
-                'data' => $data,
-                'total' => count($data),
-            ];
+            $result = $builder->get()->toArray();
         }
 
         return $result;
