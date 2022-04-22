@@ -27,6 +27,10 @@ trait QueryLister
 
         $builder = $builder ?? $this->newQuery();
 
+        if (request()->boolean('status')){
+            $builder = $builder->where('status', true);
+        }
+
         if ($page = intval(request('page', 0))) {
             $size = intval(request('size'));
 

@@ -12,7 +12,7 @@ class QueryListerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_lister_with_page()
+    public function testListerWithPage()
     {
         $this->seed(AdminSeeder::class);
 
@@ -32,7 +32,7 @@ class QueryListerTest extends TestCase
         self::assertEquals(1, $lister['page']);
     }
 
-    public function test_lister_without_page()
+    public function testListerWithoutPage()
     {
         $this->seed(AdminSeeder::class);
 
@@ -44,7 +44,7 @@ class QueryListerTest extends TestCase
         self::assertCount($count, $lister);
     }
 
-    public function test_lister_with_closure()
+    public function testListerWithClosure()
     {
         $this->seed(AdminSeeder::class);
 
@@ -55,5 +55,22 @@ class QueryListerTest extends TestCase
         foreach ($lister as $admin) {
             self::assertTrue($admin['super']);
         }
+    }
+
+    public function testListerWithWhereStatus()
+    {
+        $this->seed(AdminSeeder::class);
+
+        $admin = Admin::new()->inRandomOrder()->first();
+
+        $admin->update(['status' => false]);
+
+        $count = Admin::new()->where('status', true)->count();
+
+        request()->merge(['status' => true]);
+
+        $lister = Admin::new()->lister();
+
+        self::assertCount($count, $lister);
     }
 }
