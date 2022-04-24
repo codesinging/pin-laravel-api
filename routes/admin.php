@@ -34,9 +34,7 @@ Route::middleware(['auth:sanctum', 'permission'])
 
         Route::get('admin_roles/all', [Admin\AdminRoleController::class, 'all']);
         Route::get('admin_roles/{role}/permissions', [Admin\AdminRoleController::class, 'permissions']);
-        Route::post('admin_roles/{role}/give_permissions', [Admin\AdminRoleController::class, 'givePermissions']);
-        Route::post('admin_roles/{role}/remove_permissions', [Admin\AdminRoleController::class, 'removePermissions']);
-        Route::post('admin_roles/{role}/sync_permissions', [Admin\AdminRoleController::class, 'syncPermissions']);
+        Route::post('admin_roles/{role}/permission', [Admin\AdminRoleController::class, 'permission']);
 
         Route::apiResource('admin_roles', Admin\AdminRoleController::class);
 

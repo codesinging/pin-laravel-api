@@ -126,42 +126,7 @@ class AdminRoleControllerTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testGivePermissions()
-    {
-        $role = AdminRole::new()->create(['name' => 'role1']);
-
-        $permissions = [
-            ['name' => 'permission1'],
-            ['name' => 'permission2'],
-            ['name' => 'permission3'],
-            ['name' => 'permission4'],
-        ];
-
-        foreach ($permissions as $permission) {
-            AdminPermission::create($permission);
-        }
-
-        $this->seedAdmin();
-
-        $this->actingAsAdmin(false)
-            ->postJson("api/admin/admin_roles/{$role['id']}/give_permissions", ['permissions' => 'permission1'])
-            ->assertJsonPath('code', 0)
-            ->assertOk();
-
-        $this->actingAsAdmin(false)
-            ->postJson("api/admin/admin_roles/{$role['id']}/give_permissions", ['permissions' => ['permission2', 'permission3']])
-            ->assertJsonPath('code', 0)
-            ->assertOk();
-
-        $role->refresh();
-
-        self::assertTrue($role->hasAllPermissions('permission1', 'permission2', 'permission3'));
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testRemovePermissions()
+    public function testPermission()
     {
         $role = AdminRole::new()->create(['name' => 'role1']);
 
@@ -183,47 +148,7 @@ class AdminRoleControllerTest extends TestCase
         $this->seedAdmin();
 
         $this->actingAsAdmin(false)
-            ->postJson("api/admin/admin_roles/{$role['id']}/remove_permissions", ['permissions' => 'permission1'])
-            ->assertJsonPath('code', 0)
-            ->assertOk();
-
-        $this->actingAsAdmin(false)
-            ->postJson("api/admin/admin_roles/{$role['id']}/remove_permissions", ['permissions' => ['permission2', 'permission3']])
-            ->assertJsonPath('code', 0)
-            ->assertOk();
-
-        $role->refresh();
-
-        self::assertTrue($role->hasAllPermissions('permission4'));
-        self::assertFalse($role->hasAnyPermission('permission1', 'permission2', 'permission3'));
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testSyncPermissions()
-    {
-        $role = AdminRole::new()->create(['name' => 'role1']);
-
-        $permissions = [
-            ['name' => 'permission1'],
-            ['name' => 'permission2'],
-            ['name' => 'permission3'],
-            ['name' => 'permission4'],
-        ];
-
-        foreach ($permissions as $permission) {
-            AdminPermission::create($permission);
-        }
-
-        $role->givePermissionTo(['permission1', 'permission3', 'permission4']);
-
-        self::assertTrue($role->hasAllPermissions(['permission1', 'permission3', 'permission4']));
-
-        $this->seedAdmin();
-
-        $this->actingAsAdmin(false)
-            ->postJson("api/admin/admin_roles/{$role['id']}/sync_permissions", ['permissions' => 'permission1'])
+            ->postJson("api/admin/admin_roles/{$role['id']}/permission", ['permissions' => 'permission1'])
             ->assertJsonPath('code', 0)
             ->assertOk();
 
@@ -233,7 +158,7 @@ class AdminRoleControllerTest extends TestCase
         self::assertFalse($role->hasAnyPermission(['permission2', 'permission3', 'permission4']));
 
         $this->actingAsAdmin(false)
-            ->postJson("api/admin/admin_roles/{$role['id']}/sync_permissions", ['permissions' => ['permission2', 'permission3']])
+            ->postJson("api/admin/admin_roles/{$role['id']}/permission", ['permissions' => ['permission2', 'permission3']])
             ->assertJsonPath('code', 0)
             ->assertOk();
 

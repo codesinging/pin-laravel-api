@@ -108,47 +108,17 @@ class AdminRoleController extends BaseController
     }
 
     /**
-     * @title 分配角色权限
+     * @title 设置角色权限
      *
      * @param AdminRole $role
      * @param Request $request
      *
      * @return JsonResponse
      */
-    public function givePermissions(AdminRole $role, Request $request): JsonResponse
-    {
-        $role->givePermissionTo(Arr::wrap($request->get('permissions', [])));
-
-        return $this->success('分配权限成功');
-    }
-
-    /**
-     * @title 移除角色权限
-     *
-     * @param AdminRole $role
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function removePermissions(AdminRole $role, Request $request): JsonResponse
-    {
-        $role->revokePermissionTo(Arr::wrap($request->get('permissions', [])));
-
-        return $this->success('移除权限成功');
-    }
-
-    /**
-     * @title 同步角色权限
-     *
-     * @param AdminRole $role
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function syncPermissions(AdminRole $role, Request $request): JsonResponse
+    public function permission(AdminRole $role, Request $request): JsonResponse
     {
         $role->syncPermissions(Arr::wrap($request->get('permissions', [])));
 
-        return $this->success('同步权限成功');
+        return $this->success('设置权限成功');
     }
 }
