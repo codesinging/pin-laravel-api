@@ -125,50 +125,22 @@ class AdminController extends BaseController
     }
 
     /**
-     * @title 给管理员分配权限
+     * @title 设置管理员权限
      *
      * @param Admin $admin
      * @param Request $request
      *
      * @return JsonResponse
      */
-    public function givePermissions(Admin $admin, Request $request): JsonResponse
-    {
-        $admin->givePermissionTo(Arr::wrap($request->get('permissions', [])));
-        return $this->success('新增权限成功');
-    }
-
-    /**
-     * @title 移除管理员权限
-     *
-     * @param Admin $admin
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function removePermissions(Admin $admin, Request $request): JsonResponse
-    {
-        $admin->revokePermissionTo(Arr::wrap($request->get('permissions', [])));
-        return $this->success('移除权限成功');
-    }
-
-    /**
-     * @title 同步管理员权限
-     *
-     * @param Admin $admin
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function syncPermissions(Admin $admin, Request $request): JsonResponse
+    public function permission(Admin $admin, Request $request): JsonResponse
     {
         $admin->syncPermissions(Arr::wrap($request->get('permissions', [])));
 
-        return $this->success('同步权限成功');
+        return $this->success('设置权限成功');
     }
 
     /**
-     * @title 获取所有角色
+     * @title 获取角色
      *
      * @param Admin $admin
      *
@@ -182,48 +154,17 @@ class AdminController extends BaseController
     }
 
     /**
-     * @title 指派角色
+     * @title 设置角色
      *
      * @param Admin $admin
      * @param Request $request
      *
      * @return JsonResponse
      */
-    public function assignRoles(Admin $admin, Request $request): JsonResponse
-    {
-        $admin->assignRole(Arr::wrap($request->get('roles', [])));
-        return $this->success('指派角色成功');
-    }
-
-    /**
-     * @title 移除角色
-     *
-     * @param Admin $admin
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function removeRoles(Admin $admin, Request $request): JsonResponse
-    {
-        foreach (Arr::wrap($request->get('roles', [])) as $role) {
-            $admin->removeRole($role);
-        }
-
-        return $this->success('移除角色成功');
-    }
-
-    /**
-     * 同步角色
-     *
-     * @param Admin $admin
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function syncRoles(Admin $admin, Request $request): JsonResponse
+    public function role(Admin $admin, Request $request): JsonResponse
     {
         $admin->syncRoles(Arr::wrap($request->get('roles')));
 
-        return $this->success('同步角色成功');
+        return $this->success('设置角色成功');
     }
 }
