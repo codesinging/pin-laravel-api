@@ -17,7 +17,7 @@ trait SuperUserGate
      *
      * @return void
      */
-    protected function handleSuperUser()
+    protected function handleSuperUser(): void
     {
         Gate::before(function (AuthModel|IsSuperContract $user) {
             return $user->isSuper() ? true : null;

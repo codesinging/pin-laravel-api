@@ -49,6 +49,11 @@ class AdminTest extends TestCase
 
         self::assertFalse($this->getAdmin(false)->isSuper());
         self::assertTrue($this->getAdmin(true)->isSuper());
+
+        config(['permission.disabled' => true]);
+
+        self::assertTrue($this->getAdmin(false)->isSuper());
+        self::assertTrue($this->getAdmin(true)->isSuper());
     }
 
     /**

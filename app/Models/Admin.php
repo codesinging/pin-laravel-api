@@ -50,6 +50,6 @@ class Admin extends AuthModel implements IsSuperContract
      */
     public function isSuper(): bool
     {
-        return $this->attributes['super'] ?? false;
+        return config('permission.disabled', false) ? true : ($this->attributes['super'] ?? false);
     }
 }

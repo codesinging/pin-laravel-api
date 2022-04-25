@@ -2,6 +2,11 @@
 
 return [
 
+    /**
+     * 是否禁用权限控制。如果禁用，所有管理员用户的是否超级管理员属性都返回真
+     */
+    'disabled' => env('PERMISSION_DISABLED', false),
+
     'models' => [
 
         /*
