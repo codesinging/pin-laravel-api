@@ -10,6 +10,7 @@ use Database\Seeders\AdminMenuSeeder;
 use Database\Seeders\AdminPageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Tests\AdminActing;
 use Tests\TestCase;
 
@@ -139,6 +140,22 @@ class AuthControllerTest extends TestCase
             ->assertOk();
     }
 
+    public function testPagesWhenDisabledPermission()
+    {
+        Config::set('permission.disabled', true);
+        $this->seed(AdminPageSeeder::class);
+
+        $adminPages = AdminPage::new()->where('status', true)->get();
+
+        $this->seedAdmin()
+            ->actingAsAdmin(false)
+            ->getJson('api/admin/auth/pages')
+            ->assertJsonPath('code', 0)
+            ->assertJsonCount($adminPages->count(), 'data')
+            ->assertJsonPath("data.0.id", $adminPages->first()['id'])
+            ->assertOk();
+    }
+
     public function testMenusUsingSuperAdmin()
     {
         $this->seed(AdminMenuSeeder::class);
@@ -177,6 +194,23 @@ class AuthControllerTest extends TestCase
             ->assertJsonPath('code', 0)
             ->assertJsonPath("data.0.id", $adminMenus->first()['id'])
             ->assertJsonCount(1, 'data')
+            ->assertOk();
+    }
+
+    public function testMenusWhenDisabledPermission()
+    {
+        Config::set('permission.disabled', true);
+
+        $this->seed(AdminMenuSeeder::class);
+
+        $adminMenus = AdminMenu::new()->where('status', true)->get();
+
+        $this->seedAdmin()
+            ->actingAsAdmin(false)
+            ->getJson('api/admin/auth/menus')
+            ->assertJsonPath('code', 0)
+            ->assertJsonPath("data.0.id", $adminMenus->first()['id'])
+            ->assertJsonCount($adminMenus->count(), 'data')
             ->assertOk();
     }
 }

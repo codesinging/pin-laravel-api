@@ -7,6 +7,7 @@ use App\Models\AdminPermission;
 use App\Models\AdminRoute;
 use Database\Seeders\AdminRouteSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
 use Tests\AdminActing;
 use Tests\TestCase;
 
@@ -41,6 +42,18 @@ class AuthPermissionTest extends TestCase
         $this->actingAsAdmin(false)
             ->getJson('api/admin/admins')
             ->assertStatus(403);
+    }
+
+    public function testCommonAdminVisitAuthorizedRouteWhenDisabledPermission()
+    {
+        Config::set('permission.disabled', true);
+
+        $this->seedAdmin();
+        $this->seed(AdminRouteSeeder::class);
+
+        $this->actingAsAdmin(false)
+            ->getJson('api/admin/admins')
+            ->assertOk();
     }
 
     public function testSuperAdminVisitAuthorizedRoute()
