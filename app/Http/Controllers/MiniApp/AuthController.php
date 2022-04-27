@@ -6,6 +6,7 @@
 
 namespace App\Http\Controllers\MiniApp;
 
+use App\Models\WechatUser;
 use App\Support\Wechat\MiniApp;
 use EasyWeChat\Kernel\Exceptions\BadResponseException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
@@ -44,7 +45,14 @@ class AuthController extends Controller
             $openid = $response['openid'];
             $sessionKey = $response['session_key'];
 
-            return $this->success('登录成功', compact('code', 'openid', 'sessionKey'));
+            $user = WechatUser::new()->firstOrCreate(['openid' => $openid], [
+                'name' => $userInfo['nickName'],
+                'avatar' => $userInfo['avatarUrl'],
+            ]);
+
+            $token = $user->createToken('mini')->plainTextToken;
+
+            return $this->success('登录成功', compact('code', 'openid', 'user', 'token', 'sessionKey'));
         }
 
         return $this->error('登录凭证校验失败', -1, $response->toArray());

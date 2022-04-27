@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->string('openid', 32)->unique();
             $table->string('name')->nullable();
-            $table->string('phone', 11)->nullable()->index();
+            $table->string('mobile', 11)->nullable()->index();
             $table->string('avatar')->nullable();
             $table->boolean('status')->default(true);
 
