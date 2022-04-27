@@ -6,7 +6,9 @@
 
 namespace App\Support\Wechat;
 
+use EasyWeChat\Kernel\Contracts\Server;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\MiniApp\Application;
 use ReflectionException;
 use Throwable;
@@ -18,7 +20,7 @@ class MiniApp
      */
     public static function app(): Application
     {
-        return new Application(config('wechat.mini_app'));
+        return new Application(config('wechat.mini'));
     }
 
     /**
@@ -26,7 +28,7 @@ class MiniApp
      * @throws InvalidArgumentException
      * @throws Throwable
      */
-    public static function server(): \EasyWeChat\MiniApp\Server|\EasyWeChat\Kernel\Contracts\Server
+    public static function server(): \EasyWeChat\MiniApp\Server|Server
     {
         return self::app()->getServer();
     }
@@ -34,7 +36,7 @@ class MiniApp
     /**
      * @throws InvalidArgumentException
      */
-    public static function client(): \EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient
+    public static function client(): AccessTokenAwareClient
     {
         return self::app()->getClient();
     }
