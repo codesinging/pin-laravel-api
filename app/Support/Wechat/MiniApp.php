@@ -10,6 +10,8 @@ use EasyWeChat\Kernel\Contracts\Server;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\MiniApp\Application;
+use EasyWeChat\MiniApp\Contracts\Account;
+use EasyWeChat\MiniApp\Utils;
 use ReflectionException;
 use Throwable;
 
@@ -47,5 +49,29 @@ class MiniApp
     public static function config(string $key = null, mixed $default = null)
     {
         return is_null($key) ? self::app()->getConfig() : self::app()->getConfig()->get($key, $default);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public static function accessToken(): string
+    {
+        return self::app()->getAccessToken()->getToken();
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public static function account(): Account
+    {
+        return self::app()->getAccount();
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public static function utils(): Utils
+    {
+        return self::app()->getUtils();
     }
 }
