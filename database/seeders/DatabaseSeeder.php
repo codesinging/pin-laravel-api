@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             AdminSeeder::class,
@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             AdminMenuSeeder::class,
             AdminRouteSeeder::class,
             AdminRoleSeeder::class,
+
+            WechatUserSeeder::class,
 
             PersonalAccessTokenSeeder::class,
         ]);
