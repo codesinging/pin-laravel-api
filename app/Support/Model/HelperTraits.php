@@ -21,4 +21,5 @@ trait HelperTraits
     use SerializeDate;
     use Sanitize;
     use QueryLister;
+    use StaticMethods;
 }
