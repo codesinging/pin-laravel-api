@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\AdminRoleRequest;
 use App\Models\AdminRole;
-use App\Support\Routing\BaseController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 
-class AdminRoleController extends BaseController
+class AdminRoleController extends Controller
 {
     /**
      * @title 获取后台角色列表

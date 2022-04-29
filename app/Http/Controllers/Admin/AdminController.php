@@ -9,7 +9,6 @@ namespace App\Http\Controllers\Admin;
 use App\Exceptions\ErrorCode;
 use App\Http\Requests\Admin\AdminRequest;
 use App\Models\Admin;
-use App\Support\Routing\BaseController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,7 +18,7 @@ use Illuminate\Validation\Rule;
 /**
  * @title 管理员管理
  */
-class AdminController extends BaseController
+class AdminController extends Controller
 {
     /**
      * @title 获取管理员列表

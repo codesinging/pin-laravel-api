@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\AdminMenuRequest;
 use App\Models\AdminMenu;
-use App\Support\Routing\BaseController;
 use Illuminate\Http\JsonResponse;
 
 /**
  * @title 后台菜单管理
  */
-class AdminMenuController extends BaseController
+class AdminMenuController extends Controller
 {
     /**
      * @title 获取菜单列表

@@ -10,13 +10,12 @@ use App\Exceptions\ErrorCode;
 use App\Models\Admin;
 use App\Models\AdminMenu;
 use App\Models\AdminPage;
-use App\Support\Routing\BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class AuthController extends BaseController
+class AuthController extends Controller
 {
     /**
      * 管理员登录

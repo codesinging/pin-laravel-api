@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\AdminPageRequest;
 use App\Models\AdminPage;
-use App\Support\Routing\BaseController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
@@ -12,7 +11,7 @@ use Illuminate\Validation\Rule;
 /**
  * @title 后台页面管理
  */
-class AdminPageController extends BaseController
+class AdminPageController extends Controller
 {
     /**
      * @title 获取后台页面列表

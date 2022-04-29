@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\AdminRoute;
-use App\Support\Routing\BaseController;
 use Illuminate\Http\JsonResponse;
 
 /**
  * @title 后台路由权限管理
  */
-class AdminRouteController extends BaseController
+class AdminRouteController extends Controller
 {
     /**
      * @title 获取路由列表
