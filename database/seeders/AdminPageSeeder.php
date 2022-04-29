@@ -15,6 +15,9 @@ class AdminPageSeeder extends Seeder
         ['name' => '角色管理', 'path' => 'roles'],
         ['name' => '路由管理', 'path' => 'routes'],
         ['name' => '管理员管理', 'path' => 'admins'],
+        ['name' => '系统设置', 'path' => 'settings'],
+        ['name' => '系统设置分组管理', 'path' => 'setting_groups'],
+        ['name' => '系统设置管理', 'path' => 'setting_options'],
     ];
 
     /**
