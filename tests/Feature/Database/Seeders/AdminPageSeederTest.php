@@ -15,6 +15,6 @@ class AdminPageSeederTest extends TestCase
     {
         $this->seed(AdminPageSeeder::class);
 
-        $this->assertDatabaseHas('admin_pages', ['path' => 'dashboard']);
+        $this->assertDatabaseHas('admin_pages', ['path' => 'home']);
     }
 }

@@ -35,7 +35,7 @@ trait ValidateUnique
         }
 
         $messages = $messages ?: (method_exists($request, 'messages') ? $request->messages() : []);
-        $attributes = $attributes ?: (method_exists($request, 'attributes') ? $request->$attributes() : []);
+        $attributes = $attributes ?: (method_exists($request, 'attributes') ? $request->attributes() : []);
 
         $request->validate($rules, $messages, $attributes);
     }
