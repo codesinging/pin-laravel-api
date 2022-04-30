@@ -29,7 +29,7 @@ class SettingGroupController extends Controller
             $builder->orderByDesc('sort');
         });
 
-        return $this->success('获取设置分组成功', $lister);
+        return $this->success('获取设置分组列表成功', $lister);
     }
 
     /**

@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
 
             WechatUserSeeder::class,
             SettingSeeder::class,
+            SettingGroupSeeder::class,
+            SettingOptionSeeder::class,
 
             PersonalAccessTokenSeeder::class,
         ]);

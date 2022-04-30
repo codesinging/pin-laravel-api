@@ -37,4 +37,5 @@ Route::middleware(['auth:sanctum', 'permission'])
         Route::apiResource('admin_routes', Admin\AdminRouteController::class)->only('index', 'show');
 
         Route::apiResource('setting_groups', Admin\SettingGroupController::class);
+        Route::apiResource('setting_options', Admin\SettingOptionController::class);
     });
