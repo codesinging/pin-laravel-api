@@ -12,4 +12,8 @@ class SettingGroup extends BaseModel
         'sort',
         'status',
     ];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
 }
