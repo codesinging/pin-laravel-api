@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->unsignedBigInteger('sort')->default(0);
+            $table->boolean('status')->default(true);
 
             $table->timestamps();
         });

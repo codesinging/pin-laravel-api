@@ -10,5 +10,6 @@ class SettingGroup extends BaseModel
         'name',
         'description',
         'sort',
+        'status',
     ];
 }
