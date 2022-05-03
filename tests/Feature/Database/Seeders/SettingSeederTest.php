@@ -18,8 +18,6 @@ class SettingSeederTest extends TestCase
 
         $setting = Setting::new()->inRandomOrder()->first();
 
-        var_dump(Setting::all()->toArray());
-
         $this->assertModelExists($setting);
         $this->assertDatabaseCount(Setting::class, 50);
     }
