@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers\Admin;
 
 use App\Models\SettingOption;
+use Database\Seeders\SettingGroupSeeder;
 use Database\Seeders\SettingOptionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -16,12 +17,14 @@ class SettingOptionControllerTest extends TestCase
 
     public function testIndex()
     {
+        $this->seed(SettingGroupSeeder::class);
         $this->seed(SettingOptionSeeder::class);
 
         $this->seedAdmin()
             ->actingAsAdmin()
             ->getJson('api/admin/setting_options')
             ->assertJsonPath('data.0.id', 1)
+            ->assertJsonPath('data.0.group.id', 1)
             ->assertJsonPath('code', 0)
             ->assertOk();
     }

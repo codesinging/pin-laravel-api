@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Support\Model\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SettingOption extends BaseModel
 {
@@ -23,4 +24,13 @@ class SettingOption extends BaseModel
         'options' => 'json',
         'status' => 'boolean',
     ];
+
+    protected $with = [
+        'group',
+    ];
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(SettingGroup::class, 'group_id');
+    }
 }
