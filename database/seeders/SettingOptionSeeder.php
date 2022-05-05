@@ -13,16 +13,22 @@ class SettingOptionSeeder extends Seeder
             'group_id' => 1,
             'name' => '网站名称',
             'type' => 'input',
+            'attributes' => [],
+            'options' => [],
         ],
         [
             'group_id' => 1,
             'name' => '网站介绍',
             'type' => 'textarea',
+            'attributes' => [],
+            'options' => [],
         ],
         [
             'group_id' => 1,
             'name' => '网站状态',
             'type' => 'switch',
+            'attributes' => [],
+            'options' => [],
         ],
     ];
 
