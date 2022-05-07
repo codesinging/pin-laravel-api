@@ -57,4 +57,16 @@ class AuthController extends Controller
 
         return $this->error('登录凭证校验失败', -1, $response->toArray());
     }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function user(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        return $this->success('获取登录用户成功', $user);
+    }
 }
