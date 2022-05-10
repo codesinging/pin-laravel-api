@@ -11,16 +11,19 @@ class SettingOptionSeeder extends Seeder
     protected array  $options = [
         [
             'group_id' => 1,
+            'setting_id' => 1,
             'name' => '网站名称',
             'type' => 'input',
         ],
         [
             'group_id' => 1,
+            'setting_id' => 2,
             'name' => '网站介绍',
             'type' => 'textarea',
         ],
         [
             'group_id' => 1,
+            'setting_id' => 3,
             'name' => '网站状态',
             'type' => 'switch',
             'default' => true,

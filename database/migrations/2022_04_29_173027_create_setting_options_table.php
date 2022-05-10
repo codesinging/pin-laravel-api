@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->bigInteger('group_id');
+            $table->bigInteger('setting_id')->nullable();
             $table->string('name')->unique();
             $table->string('type')->default('input');
             $table->json('default')->nullable();

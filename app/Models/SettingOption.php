@@ -9,6 +9,7 @@ class SettingOption extends BaseModel
 {
     protected $fillable = [
         'group_id',
+        'setting_id',
         'name',
         'type',
         'default',
@@ -27,10 +28,16 @@ class SettingOption extends BaseModel
 
     protected $with = [
         'group',
+        'setting',
     ];
 
     public function group(): BelongsTo
     {
         return $this->belongsTo(SettingGroup::class, 'group_id');
+    }
+
+    public function setting(): BelongsTo
+    {
+        return $this->belongsTo(Setting::class, 'setting_id');
     }
 }

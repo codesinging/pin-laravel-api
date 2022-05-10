@@ -19,6 +19,6 @@ class SettingSeederTest extends TestCase
         $setting = Setting::new()->inRandomOrder()->first();
 
         $this->assertModelExists($setting);
-        $this->assertDatabaseCount(Setting::class, 50);
+        $this->assertDatabaseCount(Setting::class, 3);
     }
 }
