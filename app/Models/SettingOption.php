@@ -11,6 +11,7 @@ class SettingOption extends BaseModel
         'group_id',
         'setting_id',
         'name',
+        'key',
         'type',
         'default',
         'attributes',
