@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7428c98b1f47c7c8f243046e605ddefb",
+    "content-hash": "095d1d484c0b35e38769dfc76a1f5f82",
     "packages": [
         {
             "name": "bensampo/laravel-enum",
@@ -1657,6 +1657,65 @@
                 "source": "https://github.com/lazychaser/laravel-nestedset/tree/v6.0.1"
             },
             "time": "2022-02-11T06:17:57+00:00"
+        },
+        {
+            "name": "kra8/laravel-snowflake",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kra8/laravel-snowflake.git",
+                "reference": "ac64044883ca3002230fafe1d2689ad43b31142f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kra8/laravel-snowflake/zipball/ac64044883ca3002230fafe1d2689ad43b31142f",
+                "reference": "ac64044883ca3002230fafe1d2689ad43b31142f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.3|^7.0|^8.0|^9.0",
+                "php": "^8.0|^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.4",
+                "phpunit/phpunit": "^9.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Kra8\\Snowflake\\Providers\\LaravelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kra8\\Snowflake\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Koki Asai",
+                    "email": "koki@asai.email"
+                }
+            ],
+            "description": "Snowflake for Laravel and Lumen.",
+            "homepage": "https://github.com/kra8/laravel-snowflake",
+            "keywords": [
+                "laravel",
+                "lumen",
+                "php",
+                "snowflake"
+            ],
+            "support": {
+                "issues": "https://github.com/kra8/laravel-snowflake/issues",
+                "source": "https://github.com/kra8/laravel-snowflake/tree/v2.1.1"
+            },
+            "time": "2022-05-10T04:32:43+00:00"
         },
         {
             "name": "laminas/laminas-code",
