@@ -26,6 +26,7 @@ class SettingOptionRequest extends FormRequest
         return [
             'group_id' => 'required',
             'name' => 'required',
+            'key' => 'required',
         ];
     }
 
@@ -34,6 +35,7 @@ class SettingOptionRequest extends FormRequest
         return [
             'group_id' => '分组',
             'name' => '配置名称',
+            'key' => '配置键',
         ];
     }
 }
